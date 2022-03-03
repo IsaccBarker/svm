@@ -4,6 +4,7 @@ svm_sources = [
   'class.c',
   'log.c',
   'class_file.c',
+  'constant_pool.c',
 ]
 
 svm_args = [

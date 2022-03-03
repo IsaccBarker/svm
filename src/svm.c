@@ -11,10 +11,11 @@
 
 int main(int argc, char *argv[]) {
     int c;
+    char* class_file;
+
     while (1) {
         int option_index = 0;
         static struct option long_options[] = {
-            {"verbose", no_argument, &verbose_flag, 1},
             {"class", required_argument, 0, 'c'},
             {0, 0, 0, 0}
         };
@@ -38,11 +39,6 @@ int main(int argc, char *argv[]) {
 
                 break;
 
-            case 'v':
-                verbose_flag = 1;
-
-                break;
-
             case 'c':
                 class_file = optarg;
 
@@ -52,9 +48,6 @@ int main(int argc, char *argv[]) {
                 // Getopt already printed a message.
 
                 break;
-
-            default:
-                abort();
         }
     }
 
