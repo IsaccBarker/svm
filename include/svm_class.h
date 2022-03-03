@@ -1,9 +1,13 @@
 #ifndef SVM_CLASS
 #define SVM_CLASS
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <svm_attribute_info.h>
 #include <svm_constant_pool.h>
 #include <svm_field_info.h>
+#include <svm_bit.h>
 
 /**
  * Defines a class state machine for functions to modify
@@ -34,6 +38,21 @@ typedef struct svm_class_representation_t {
     unsigned int attribute_count : 2;
     // attribute_info attributes[]; // TODO
 } svm_class_representation;
+
+/**
+ * Initializes and runs the virtual machine
+ */
+void svm_start_virtual_machine(char* class_file);
+
+/**
+ * Prints out the class in indented hexadecimal form.
+ */
+void display_class_hex(unsigned char* data, size_t file_length);
+
+/**
+ * Gets a bit out of an int.
+ */
+bit get_bit(unsigned int k, unsigned int n);
 
 /** 
  * Print a high level representation of the class.

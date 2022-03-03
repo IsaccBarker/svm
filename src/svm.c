@@ -73,5 +73,9 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // Horray!
+    log_info("Starting virtual machine!");
+    svm_start_virtual_machine(class_file);
+
     return EXIT_SUCCESS;
 }
