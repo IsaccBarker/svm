@@ -37,13 +37,13 @@
 /** Declared synthetic; not present in the source code. */
 #define ACC_METHOD_ACCESS_SYNTHETIC 0x1000
 
-typedef struct method_info_t {
-    unsigned int access_flags : 2;
-    unsigned int name_index : 2;
-    unsigned int descriptor_index : 2;
-    unsigned int attributes_count : 2;
-    attribute_info attributes; // TODO
-}
+typedef struct {
+    unsigned int access_flags;
+    unsigned int name_index;
+    unsigned int descriptor_index;
+    unsigned int attributes_count;
+    attribute_info* attributes;
+} method_info;
 
 
 #endif /* SVM_METHOD_INFO */

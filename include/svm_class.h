@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include <svm_attribute_info.h>
+#include <svm_method_info.h>
 #include <svm_constant_pool.h>
 #include <svm_field_info.h>
 #include <svm_bit.h>
@@ -48,7 +49,7 @@ typedef struct {
     uint16_t fields_count;
     // field_info fields[]; // TODO;
     uint16_t methods_count;
-    // method_info methods[]; // TODO
+    method_info* methods; // TODO
     uint16_t attribute_count;
     // attribute_info attributes[]; // TODO
 } svm_class_representation;

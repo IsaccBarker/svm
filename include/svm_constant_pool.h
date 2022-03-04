@@ -1,6 +1,8 @@
 #ifndef SVM_CONSTANT_POOL
 #define SVM_CONSTANT_POOL
 
+#include <stdlib.h>
+
 #include <svm_log.h>
 
 #define SVM_ACC_CONSTANT_CLASS 7
@@ -41,44 +43,13 @@
  */
 typedef struct cp_info_t {
     uint8_t tag;
-    uint16_t info[];
+    size_t info_length;
+    uint8_t* info;
 } cp_info;
 
-size_t svm_info_length(uint8_t tag) {
-    switch (tag) {
-        case SVM_ACC_CONSTANT_CLASS:
-            return 1;
-        case SVM_ACC_CONSTANT_FIELD_REF:
-            return 2;
-        case SVM_ACC_CONSTANT_METHOD_REF:
-            return 2;
-        case SVM_ACC_CONSTANT_INTERFACE_METHOD_REF:
-            return 2;
-        case SVM_ACC_CONSTANT_STRING:
-            return 1;
-        case SVM_ACC_CONSTANT_INTEGER:
-            return 2;
-        case SVM_ACC_CONSTANT_FLOAT:
-            return 2;
-        case SVM_ACC_CONSTANT_LONG:
-            return 4;
-        case SVM_ACC_CONSTANT_DOUBLE:
-            return 4;
-        case SVM_ACC_CONSTANT_NAME_AND_TYPE:
-            return 2;
-        case SVM_ACC_CONSTANT_UTF8:
-            return -1;
-        case SVM_ACC_CONSTANT_METHOD_HANDLE:
-            return 1;
-        case SVM_ACC_CONSTANT_METHOD_TYPE:
-            return 1;
-        case SVM_ACC_CONSTANT_INVOKE_DYNAMIC:
-            return 2;
-        default:
-            log_fatal("Unknown constant pool tag (%d).", tag);
 
-            exit(EXIT_FAILURE);
-    }
-}
+size_t svm_constant_info_length(uint8_t tag, uint16_t first);
+
+char* svm_constant_info_as_string(uint8_t tag, uint16_t first);
 
 #endif /* CONSTANT_POOL */

@@ -2,9 +2,9 @@
 #define SVM_ATTRIBUTE_INFO
 
 typedef struct attribute_info_t {
-    unsigned int attribute_name_index : 2;
-    unsigned int attribute_length : 4;
-    // unsigned int info[] : 1; // TODO
+    uint16_t name_index;
+    uint32_t info_length;
+    uint8_t* info;
 } attribute_info;
 
 #endif /* SVM_ATTRIBUTE_INFO */

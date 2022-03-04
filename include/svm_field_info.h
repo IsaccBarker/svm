@@ -33,7 +33,7 @@ typedef struct field_info_t {
     unsigned int name_index : 2;
     unsigned int descriptor_index : 2;
     unsigned int attributes_count : 2;
-    attribute_info attributes[]; // TODO
+    attribute_info* attributes; // TODO
 } field_info;
 
 #endif /* SVM_FIELD_INFO */
