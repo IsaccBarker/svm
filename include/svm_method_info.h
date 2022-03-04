@@ -38,10 +38,10 @@
 #define ACC_METHOD_ACCESS_SYNTHETIC 0x1000
 
 typedef struct {
-    unsigned int access_flags;
-    unsigned int name_index;
-    unsigned int descriptor_index;
-    unsigned int attributes_count;
+    uint16_t access_flags;
+    uint16_t name_index;
+    uint16_t descriptor_index;
+    uint16_t attributes_count;
     attribute_info* attributes;
 } method_info;
 

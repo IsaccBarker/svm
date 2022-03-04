@@ -1,6 +1,6 @@
 public class Simple {
-    public static int main() {
-        return 42;
+    public static int main(int[] args) {
+        return args[0];
     }
 }
 

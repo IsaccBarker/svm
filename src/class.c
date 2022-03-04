@@ -35,14 +35,15 @@ void svm_start_virtual_machine(char* class_file) {
     // Simple science.
     {
         rep->magic = (data[0] << 24) + (data[1] << 16) + (data[2] << 8) + (data[3]);
+        head += 4;
         if (rep->magic != 3405691582) {
-            log_warn("Class's magic value is not CAFEBABE (3405691582). Possibly corrupted file? Continuing...");
+            log_warn("Class's magic value is not CAFEBABE (3405691582). Possibly corrupted file, or not JVM class file? Continuing...");
         }
 
         rep->minor_ver = (data[4] << 8) + (data[5]);
+        head += 2;
         rep->major_ver = (data[6] << 8) + (data[7]);
-
-        head = 8;
+        head += 2;
     }
 
     // Constant pool
@@ -51,6 +52,7 @@ void svm_start_virtual_machine(char* class_file) {
 
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
         rep->constant_pool_count = (data[8] << 8) + (data[9]) - 1;
+        head += 3;
         rep->constant_pool = malloc(sizeof(cp_info) * rep->constant_pool_count);
 
         if (rep->constant_pool == NULL) {
@@ -92,26 +94,25 @@ void svm_start_virtual_machine(char* class_file) {
         head += constant_offset;
     }
 
-    // I think this is in the standard?
-    // Either way, not gonna mess with it.
-    head += 3;
-
     // Simple science
     {
         // TODO Access flags
         // 137 138
         uint16_t access_flags = (data[head] << data[head+1]);
+        head += 2;
 
         // TODO This class
+        uint16_t this_class = (data[head] << data[head+1]);
         head += 2;
 
         // TODO Super class
+        uint16_t super_class = (data[head] << data[head+1]);
         head += 2;
 
         rep->access_flags = access_flags;
+        rep->this_class = this_class;
+        rep->super_class = super_class;
     }
-
-    head += 1;
 
     // TODO Interfaces
     {
@@ -130,67 +131,67 @@ void svm_start_virtual_machine(char* class_file) {
         head += sizeof(uint16_t) * 2;
     }
 
-    head += 1;
-
     // Methods
     {
+        size_t size_of_method_info = (sizeof(uint16_t) * 4);
+        size_t size_of_attribute_info = sizeof(uint8_t*) + sizeof(uint16_t) + sizeof(uint32_t);
         uint16_t methods_count = data[head];
         rep->methods_count = methods_count;
-        rep->methods = malloc(methods_count * sizeof(method_info));
+        // We put sizeof() in here because we need to allocate enough for the pointers as well.
+        rep->methods = malloc(methods_count * (size_of_method_info + sizeof(attribute_info*) + size_of_attribute_info));
+        head += 1;
 
-        if (rep->methods == NULL) {
-            log_fatal("Failed to allocate memory for method table: ", strerror(errno));
-
-            exit(EXIT_FAILURE);
-        }
-
-        for (size_t i = 0; i < methods_count; i++) {
-            uint16_t access_flags = (data[head+1] << 8) + data[head+2];
+        for (int i = 0; i < methods_count; i++) {
+            uint16_t access_flags = (data[head] << 8) + data[head+1];
             head += 2;
-            uint16_t name_index = (data[head+1] << 8) + data[head+2];
+            uint16_t name_index = (data[head] << 8) + data[head+1];
             head += 2;
-            uint16_t descriptor_index = (data[head+1] << 8) + data[head+2];
+            uint16_t descriptor_index = (data[head] << 8) + data[head+1];
             head += 2;
-            uint16_t attributes_count = (data[head+1] << 8) + data[head+2];
+            uint16_t attributes_count = (data[head] << 8) + data[head+1];
             head += 2;
-
             attribute_info* attributes = malloc(attributes_count * sizeof(attribute_info));
 
+            if (attributes == NULL) {
+                log_fatal("Failed to allocate memory for attributes: %s\n", strerror(errno));
+
+                exit(EXIT_FAILURE);
+            }
+
             for (int l = 0; l < attributes_count; l++) {
-                uint16_t name_index = (data[head+1] << 8) + data[head+2];
+                printf("fewfwef\n");
+                uint16_t name_index = (data[head] << 8) + data[head+1];
                 head += 2;
-                uint32_t info_length = (data[head+1] << 8) + data[head+2];
+                uint32_t info_length = (data[head] << 24) + (data[head+1] << 16) + (data[head+2] << 8) + data[head+3];
                 head += 4;
                 uint8_t* info = malloc(info_length * sizeof(uint8_t));
 
-                for (int p = 0; p < info_length; p++) {
-                    info[p] = data[head];
-                    head += 1;
-                }
-
                 if (info == NULL) {
-                    log_fatal("Failed to allocate memory for attribute info: %s", strerror(errno));
+                    log_fatal("Failed to allocate memory for attribute info: %s\n", strerror(errno));
 
                     exit(EXIT_FAILURE);
                 }
 
-                attribute_info atrib = {
+                for (uint32_t k = 0; k < info_length; k++) {
+                    info[k] = (char) data[head];
+                    head += 1;
+                }
+
+                attribute_info attrib_info = {
                     .name_index = name_index,
                     .info_length = info_length,
                     .info = info
                 };
 
-                attributes[l] = atrib;
+                attributes[l] = attrib_info;
             }
-
-            attribute_info atrib_info;
 
             method_info info = {
                 .access_flags = access_flags,
                 .name_index = name_index,
                 .descriptor_index = descriptor_index,
                 .attributes_count = attributes_count,
-                .attributes = attributes,
+                .attributes = attributes
             };
 
             rep->methods[i] = info;
@@ -201,6 +202,18 @@ void svm_start_virtual_machine(char* class_file) {
     {
 
     }
+
+    /* log_info("Sufficient information collected, starting VM!");
+    log_debug("Found constructor in table.");
+    log_trace("\t0: aload_0");
+    log_trace("\t1: invokespecial #1");
+    log_trace("\tRunning method at index one in symbol table.");
+    log_trace("\t0: aload_0");
+    log_trace("\t1: iconst_0");
+    log_trace("\t2: iaload");
+    log_trace("\t3: ireturn");
+    log_trace("\tPopping stack, returning to `constrcutor`");
+    log_trace("\t4: return"); */
 
     svm_print_class_overview(rep);
 }
