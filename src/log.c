@@ -141,7 +141,7 @@ void log_log(int level, const char *file, int line, const char *fmt, ...) {
   log_Event ev = {
     .fmt   = fmt,
     .file  = file,
-    .line  = line,
+    .line  = 0,
     .level = level,
   };
 

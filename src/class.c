@@ -14,7 +14,7 @@
 #include <svm_constant_pool.h>
 #include <svm_method_info.h>
 
-void svm_start_virtual_machine(char* class_file) {
+void svm_start_virtual_machine(char* class_file, char *argv[]) {
     log_trace("Reading class file.");
     FILE* f = svm_get_file_handle(class_file);
     size_t file_length = svm_get_file_size(f);
@@ -96,16 +96,15 @@ void svm_start_virtual_machine(char* class_file) {
 
     // Simple science
     {
-        // TODO Access flags
-        // 137 138
+        // TODO Access flags (we don't need this for the demo, still nice to have)
         uint16_t access_flags = (data[head] << data[head+1]);
         head += 2;
 
-        // TODO This class
+        // TODO This class (we don't need this for the demo, still nice to have)
         uint16_t this_class = (data[head] << data[head+1]);
         head += 2;
 
-        // TODO Super class
+        // TODO Super class (we don't need this for the demo, still nice to have)
         uint16_t super_class = (data[head] << data[head+1]);
         head += 2;
 
@@ -114,7 +113,8 @@ void svm_start_virtual_machine(char* class_file) {
         rep->super_class = super_class;
     }
 
-    // TODO Interfaces
+    // TODO Interfaces. We don't need them for this demo, hence we don't
+    // populate them.
     {
         uint16_t interfaces_count = data[head];
         rep->interfaces_count = interfaces_count;
@@ -159,7 +159,6 @@ void svm_start_virtual_machine(char* class_file) {
             }
 
             for (int l = 0; l < attributes_count; l++) {
-                printf("fewfwef\n");
                 uint16_t name_index = (data[head] << 8) + data[head+1];
                 head += 2;
                 uint32_t info_length = (data[head] << 24) + (data[head+1] << 16) + (data[head+2] << 8) + data[head+3];
@@ -196,24 +195,21 @@ void svm_start_virtual_machine(char* class_file) {
 
             rep->methods[i] = info;
         }
+
+
     }
 
     // Attributes
     {
+        uint16_t attribute_count = (data[head] << 8) + data[head+1];
+        rep->attribute_count = attribute_count;
 
+        for (int i = 0; i < attribute_count; i++) {
+
+        }
+
+        // TODO: Our main class (for the demo only) doesn't have any class-wide attributes. Let's ignore this.
     }
-
-    /* log_info("Sufficient information collected, starting VM!");
-    log_debug("Found constructor in table.");
-    log_trace("\t0: aload_0");
-    log_trace("\t1: invokespecial #1");
-    log_trace("\tRunning method at index one in symbol table.");
-    log_trace("\t0: aload_0");
-    log_trace("\t1: iconst_0");
-    log_trace("\t2: iaload");
-    log_trace("\t3: ireturn");
-    log_trace("\tPopping stack, returning to `constrcutor`");
-    log_trace("\t4: return"); */
 
     svm_print_class_overview(rep);
 }

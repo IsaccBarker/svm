@@ -57,7 +57,7 @@ typedef struct {
 /**
  * Initializes and runs the virtual machine
  */
-void svm_start_virtual_machine(char* class_file);
+void svm_start_virtual_machine(char* class_file, char* argv[]);
 
 /**
  * Prints out the class in indented hexadecimal form.

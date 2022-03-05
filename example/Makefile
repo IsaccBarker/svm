@@ -1,7 +1,13 @@
 Simple.class: Simple.java
 	javac Simple.java
 
-all: Simple.class
+FizzBuzz.class: FizzBuzz.java
+	javac FizzBuzz.java
+
+Binary.class: Binary.java
+	javac Binary.java
+
+all: Simple.class FizzBuzz.class Binary.class
 	echo done
 
 .PHONY: all
