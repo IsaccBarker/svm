@@ -2,7 +2,9 @@
 <h2 align="center"><s>Shitty</s> Simple Virtual Machine</h2>
 
 ## Capabilities
-This "JVM" is capable of running *very* simple Java 8 class files. The only functionality this thing supports is located in the example directory.
+Currently, this "JVM" is capable of running *very* simple Java 8 class files. The only functionality this thing supports is located in the example directory.
+
+This is no longer a school project. This aims to have a lighter footprint than some JVMs, in both memory and size. This will *no doubt* haunt me. This won't ever actually turn into something, but hey, it's educational :D
 
 ## Building
 Build like you would any meson project.
