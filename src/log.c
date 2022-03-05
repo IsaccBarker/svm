@@ -28,14 +28,14 @@ typedef struct {
   log_LogFn fn;
   void *udata;
   int level;
-} Callback;
+} svm_log_callback;
 
 static struct {
   void *udata;
   log_LockFn lock;
   int level;
   bool quiet;
-  Callback callbacks[MAX_CALLBACKS];
+  svm_log_callback callbacks[MAX_CALLBACKS];
 } L;
 
 
@@ -50,7 +50,7 @@ static const char *level_colors[] = {
 #endif
 
 
-static void stdout_callback(log_Event *ev) {
+static void stdout_callback(svm_log_event *ev) {
   char buf[16];
   buf[strftime(buf, sizeof(buf), "%H:%M:%S", ev->time)] = '\0';
 #ifdef LOG_USE_COLOR
@@ -69,7 +69,7 @@ static void stdout_callback(log_Event *ev) {
 }
 
 
-static void file_callback(log_Event *ev) {
+static void file_callback(svm_log_event *ev) {
   char buf[64];
   buf[strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", ev->time)] = '\0';
   fprintf(
@@ -115,7 +115,7 @@ void log_set_quiet(bool enable) {
 int log_add_callback(log_LogFn fn, void *udata, int level) {
   for (int i = 0; i < MAX_CALLBACKS; i++) {
     if (!L.callbacks[i].fn) {
-      L.callbacks[i] = (Callback) { fn, udata, level };
+      L.callbacks[i] = (svm_log_callback) { fn, udata, level };
       return 0;
     }
   }
@@ -128,7 +128,7 @@ int log_add_fp(FILE *fp, int level) {
 }
 
 
-static void init_event(log_Event *ev, void *udata) {
+static void init_event(svm_log_event *ev, void *udata) {
   if (!ev->time) {
     time_t t = time(NULL);
     ev->time = localtime(&t);
@@ -138,10 +138,10 @@ static void init_event(log_Event *ev, void *udata) {
 
 
 void log_log(int level, const char *file, int line, const char *fmt, ...) {
-  log_Event ev = {
+  svm_log_event ev = {
     .fmt   = fmt,
     .file  = file,
-    .line  = 0,
+    .line  = line,
     .level = level,
   };
 
@@ -155,7 +155,7 @@ void log_log(int level, const char *file, int line, const char *fmt, ...) {
   }
 
   for (int i = 0; i < MAX_CALLBACKS && L.callbacks[i].fn; i++) {
-    Callback *cb = &L.callbacks[i];
+    svm_log_callback *cb = &L.callbacks[i];
     if (level >= cb->level) {
       init_event(&ev, cb->udata);
       va_start(ev.ap, fmt);

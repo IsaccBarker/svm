@@ -28,7 +28,7 @@
 /** Declared as an element of an enum. */
 #define SVM_FIELD_FLAG_ACC_ENUM 0x4000
 
-typedef struct field_info_t {
+typedef struct {
     unsigned int access_flags : 2;
     unsigned int name_index : 2;
     unsigned int descriptor_index : 2;

@@ -10,9 +10,8 @@ svm_sources = [
 svm_args = [
   '-DLOG_USE_COLOR',
   '-pedantic',
-  '-Os',
-  '-ffunction-sections',
-  '-fdata-sections',
+  '-Werror',
+  '-std=c99'
 ]
 
 svm_incdirs = include_directories('../include')

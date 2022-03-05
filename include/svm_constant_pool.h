@@ -2,6 +2,7 @@
 #define SVM_CONSTANT_POOL
 
 #include <stdlib.h>
+#include <stdint.h>
 
 #include <svm_log.h>
 
@@ -41,7 +42,7 @@
  * For the current version (class demo), we don't need many
  * of of these.
  */
-typedef struct cp_info_t {
+typedef struct {
     uint8_t tag;
     size_t info_length;
     uint8_t* info;

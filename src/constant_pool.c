@@ -42,7 +42,7 @@ size_t svm_constant_info_length(uint8_t tag, uint16_t first) {
     }
 }
 
-char* svm_constant_info_as_string(uint8_t tag, uint16_t first) {
+char* svm_constant_info_as_string(uint8_t tag, __attribute__((unused)) uint16_t first) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
             return "Class";

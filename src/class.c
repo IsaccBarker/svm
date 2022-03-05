@@ -8,21 +8,14 @@
 #include <limits.h>
 
 #include <svm_log.h>
-#include <svm_bit.h>
 #include <svm_globals.h>
 #include <svm_class_file.h>
 #include <svm_constant_pool.h>
 #include <svm_method_info.h>
 
-void svm_start_virtual_machine(char* class_file, char *argv[]) {
-    log_trace("Reading class file.");
-    FILE* f = svm_get_file_handle(class_file);
-    size_t file_length = svm_get_file_size(f);
-    unsigned char* data = svm_read_class_file(file_length, f);
+svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char* data) {
     uint16_t head = 0;
     svm_class_representation* rep = malloc(file_length);
-
-    display_class_hex(data, file_length);
 
     if (rep == NULL) {
         log_fatal("Failed to allocate memory to create class rep (%d): %s", file_length, strerror(errno));
@@ -211,10 +204,10 @@ void svm_start_virtual_machine(char* class_file, char *argv[]) {
         // TODO: Our main class (for the demo only) doesn't have any class-wide attributes. Let's ignore this.
     }
 
-    svm_print_class_overview(rep);
+    return rep;
 }
 
-void display_class_hex(unsigned char* data, size_t file_length) {
+void svm_display_class_hex(unsigned char* data, size_t file_length) {
     log_debug("Hexadecimal notation:");
     printf("0:\t");
     for (unsigned int i = 0; i < file_length; i++) {
