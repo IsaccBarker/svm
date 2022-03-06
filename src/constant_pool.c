@@ -1,9 +1,11 @@
-#include <constant_pool.h>
+#include <svm_constant_pool.h>
 
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <limits.h>
+
+#include <svm_log.h>
 
 size_t constant_info_length(uint8_t tag, uint16_t first) {
     switch (tag) {

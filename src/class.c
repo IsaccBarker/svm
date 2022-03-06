@@ -1,4 +1,4 @@
-#include <class.h>
+#include <svm_class.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,11 +7,11 @@
 #include <string.h>
 #include <limits.h>
 
-#include <log.h>
-#include <globals.h>
-#include <class_file.h>
-#include <constant_pool.h>
-#include <method_info.h>
+#include <svm_log.h>
+#include <svm_globals.h>
+#include <svm_class_file.h>
+#include <svm_constant_pool.h>
+#include <svm_method_info.h>
 
 class_representation* parse_class_file(size_t file_length, unsigned char* data) {
     uint16_t head = 0;

@@ -4,11 +4,11 @@
 #include <string.h>
 #include <assert.h>
 
-#include <const.h>
-#include <globals.h>
-#include <file.h>
-#include <class.h>
-#include <class_file.h>
+#include <svm_const.h>
+#include <svm_globals.h>
+#include <svm_class.h>
+#include <svm_class_file.h>
+#include <svm_log.h>
 
 void invalid_command_argument(char* o, char* arg, char* hint) {
     if (hint == NULL) {

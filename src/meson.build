@@ -1,6 +1,5 @@
 sources = [
   'svm.c',
-  'file.c',
   'class.c',
   'log.c',
   'class_file.c',

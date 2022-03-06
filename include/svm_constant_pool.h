@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include <log.h>
-
 #define SVM_ACC_CONSTANT_CLASS 7
 #define SVM_ACC_CONSTANT_FIELD_REF 9
 #define SVM_ACC_CONSTANT_METHOD_REF 10

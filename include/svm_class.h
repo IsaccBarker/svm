@@ -6,10 +6,10 @@
 #include <limits.h>
 #include <stdint.h>
 
-#include <attribute_info.h>
-#include <method_info.h>
-#include <constant_pool.h>
-#include <field_info.h>
+#include <svm_attribute_info.h>
+#include <svm_method_info.h>
+#include <svm_constant_pool.h>
+#include <svm_field_info.h>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \

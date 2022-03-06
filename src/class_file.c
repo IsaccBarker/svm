@@ -1,11 +1,11 @@
-#include <class_file.h>
+#include <svm_class_file.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
 
-#include <log.h>
+#include <svm_log.h>
 
 FILE* get_file_handle(char* class_file) {
     FILE* f = fopen(class_file, "rb");
