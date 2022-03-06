@@ -3,6 +3,6 @@
 #include <string.h>
 #include <errno.h>
 
-#include <svm_log.h>
+#include <log.h>
 
 

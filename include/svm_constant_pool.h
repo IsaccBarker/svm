@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include <svm_log.h>
+#include <log.h>
 
 #define SVM_ACC_CONSTANT_CLASS 7
 #define SVM_ACC_CONSTANT_FIELD_REF 9
@@ -49,8 +49,8 @@ typedef struct {
 } cp_info;
 
 
-size_t svm_constant_info_length(uint8_t tag, uint16_t first);
+size_t constant_info_length(uint8_t tag, uint16_t first);
 
-char* svm_constant_info_as_string(uint8_t tag, uint16_t first);
+char* constant_info_as_string(uint8_t tag, uint16_t first);
 
 #endif /* CONSTANT_POOL */

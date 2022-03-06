@@ -6,10 +6,10 @@
 #include <limits.h>
 #include <stdint.h>
 
-#include <svm_attribute_info.h>
-#include <svm_method_info.h>
-#include <svm_constant_pool.h>
-#include <svm_field_info.h>
+#include <attribute_info.h>
+#include <method_info.h>
+#include <constant_pool.h>
+#include <field_info.h>
 
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
@@ -25,9 +25,9 @@
 /**
  * Defines a class state machine for functions to modify
  */
-typedef struct svm_class_t {
+typedef struct class_t {
     char* class_str;
-} svm_class;
+} class;
 
 /**
  * Stores the exact representation of the class file.
@@ -51,22 +51,22 @@ typedef struct {
     method_info* methods; // TODO
     uint16_t attribute_count;
     // attribute_info attributes[]; // TODO
-} svm_class_representation;
+} class_representation;
 
 /**
  * Initializes and runs the virtual machine
  */
-svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char* data);
+class_representation* parse_class_file(size_t file_length, unsigned char* data);
 
 /**
  * Prints out the class in indented hexadecimal form.
  */
-void svm_display_class_hex(unsigned char* data, size_t file_length);
+void display_class_hex(unsigned char* data, size_t file_length);
 
 /** 
  * Print a high level representation of the class.
  */
-void svm_print_class_overview(svm_class_representation* r);
+void print_class_overview(class_representation* r);
 
 #endif /* SVM_CLASS */
 

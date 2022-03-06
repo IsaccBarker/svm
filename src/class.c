@@ -1,4 +1,4 @@
-#include <svm_class.h>
+#include <class.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,15 +7,15 @@
 #include <string.h>
 #include <limits.h>
 
-#include <svm_log.h>
-#include <svm_globals.h>
-#include <svm_class_file.h>
-#include <svm_constant_pool.h>
-#include <svm_method_info.h>
+#include <log.h>
+#include <globals.h>
+#include <class_file.h>
+#include <constant_pool.h>
+#include <method_info.h>
 
-svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char* data) {
+class_representation* parse_class_file(size_t file_length, unsigned char* data) {
     uint16_t head = 0;
-    svm_class_representation* rep = malloc(file_length);
+    class_representation* rep = malloc(file_length);
 
     if (rep == NULL) {
         log_fatal("Failed to allocate memory to create class rep (%d): %s", file_length, strerror(errno));
@@ -63,7 +63,7 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
             first += data[12+constant_offset];
             first += 1;
 
-            info_length = svm_constant_info_length(tag, first);
+            info_length = constant_info_length(tag, first);
             constant_offset += info_length;
             info = malloc(info_length * sizeof(uint8_t));
 
@@ -207,7 +207,7 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
     return rep;
 }
 
-void svm_display_class_hex(unsigned char* data, size_t file_length) {
+void display_class_hex(unsigned char* data, size_t file_length) {
     log_debug("Hexadecimal notation:");
     printf("0:\t");
     for (unsigned int i = 0; i < file_length; i++) {
@@ -225,7 +225,7 @@ void svm_display_class_hex(unsigned char* data, size_t file_length) {
     printf("\n");
 }
 
-void svm_print_class_overview(svm_class_representation* r) {
+void print_class_overview(class_representation* r) {
     log_debug("Magic                 : %08X", r->magic);
     log_debug("Minor Version         : (0x%04X, %d)", r->minor_ver, r->minor_ver);
     log_debug("Major Version         : (0x%04X, %d)", r->major_ver, r->major_ver);
@@ -233,7 +233,7 @@ void svm_print_class_overview(svm_class_representation* r) {
 
     for (int i = 0; i < r->constant_pool_count; i++) {
         log_trace("\t%d: %s", i,
-                svm_constant_info_as_string(r->constant_pool[i].tag, r->constant_pool[i].info[0]));
+                constant_info_as_string(r->constant_pool[i].tag, r->constant_pool[i].info[0]));
     }
 
     log_debug("Access Flags (s)      : %04X", r->access_flags);

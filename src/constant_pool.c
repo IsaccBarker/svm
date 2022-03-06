@@ -1,11 +1,11 @@
-#include <svm_constant_pool.h>
+#include <constant_pool.h>
 
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <limits.h>
 
-size_t svm_constant_info_length(uint8_t tag, uint16_t first) {
+size_t constant_info_length(uint8_t tag, uint16_t first) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
             return 3;
@@ -42,7 +42,7 @@ size_t svm_constant_info_length(uint8_t tag, uint16_t first) {
     }
 }
 
-char* svm_constant_info_as_string(uint8_t tag, __attribute__((unused)) uint16_t first) {
+char* constant_info_as_string(uint8_t tag, __attribute__((unused)) uint16_t first) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
             return "Class";

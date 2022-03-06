@@ -1,13 +1,13 @@
-#include <svm_class_file.h>
+#include <class_file.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
 
-#include <svm_log.h>
+#include <log.h>
 
-FILE* svm_get_file_handle(char* class_file) {
+FILE* get_file_handle(char* class_file) {
     FILE* f = fopen(class_file, "rb");
 
     if (f == NULL) {
@@ -19,7 +19,7 @@ FILE* svm_get_file_handle(char* class_file) {
     return f;
 }
 
-size_t svm_get_file_size(FILE* f) {
+size_t get_file_size(FILE* f) {
     size_t length;
 
     fseek(f, 0, SEEK_END);
@@ -29,7 +29,7 @@ size_t svm_get_file_size(FILE* f) {
     return length;
 }
 
-unsigned char* svm_read_class_file(size_t length, FILE* f) {
+unsigned char* read_class_file(size_t length, FILE* f) {
     unsigned char* buffer = malloc(length);
 
     fread(buffer, length, 1, f);

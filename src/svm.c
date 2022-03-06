@@ -4,13 +4,13 @@
 #include <string.h>
 #include <assert.h>
 
-#include <svm_const.h>
-#include <svm_globals.h>
-#include <svm_file.h>
-#include <svm_class.h>
-#include <svm_class_file.h>
+#include <const.h>
+#include <globals.h>
+#include <file.h>
+#include <class.h>
+#include <class_file.h>
 
-void svm_invalid_command_argument(char* o, char* arg, char* hint) {
+void invalid_command_argument(char* o, char* arg, char* hint) {
     if (hint == NULL) {
         fprintf(stderr, "svm: malformed argument for option `%s`: %s\n", o, arg);
     }
@@ -18,7 +18,7 @@ void svm_invalid_command_argument(char* o, char* arg, char* hint) {
     fprintf(stderr, "svm: malformed argument for option `%s`: %s (hint: %s)\n", o, arg, hint);
 }
 
-void svm_print_help_message() {
+void print_help_message() {
     printf("Usage: " SVM_NAME " [options]"
             "Options:"
             "\t--help -h <none>: Print this help message.\n"
@@ -30,7 +30,7 @@ void svm_print_help_message() {
             "Home page, report bugs to: https://github.com/IsaccBarker/svm\n");
 }
 
-void svm_print_version_message() {
+void print_version_message() {
     printf(SVM_NAME " " SVM_VERSION "\n"
             "Copyright (C) 2022 Milo Banks (Isacc/Grey Barker)\n"
             "License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>\n"
@@ -76,13 +76,13 @@ int main(int argc, char *argv[]) {
             }
 
             case 'h': {
-                svm_print_help_message();
+                print_help_message();
 
                 exit(EXIT_SUCCESS);
             }
 
             case 'V': {
-                svm_print_version_message();
+                print_version_message();
 
                 exit(EXIT_SUCCESS);
             }
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
                 verbosity = strtoul(optarg, NULL, 10);
 
                 if (verbosity == 0 && optarg[0] != '0') {
-                    svm_invalid_command_argument("-v", optarg, "value should be unsigned integer");
+                    invalid_command_argument("-v", optarg, "value should be unsigned integer");
 
                     exit(EXIT_FAILURE);
                 }
@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
 
                 for (unsigned int i = class_file_length-sizeof(ideal_extension); i < class_file_length; i++) {
                     if (ideal_extension[i-(class_file_length-sizeof(ideal_extension))] != class_file[i]) {
-                        svm_invalid_command_argument("-c", optarg, "file should end in .class.");
+                        invalid_command_argument("-c", optarg, "file should end in .class.");
 
                         exit(EXIT_FAILURE);
                     }
@@ -149,14 +149,14 @@ int main(int argc, char *argv[]) {
 
     // Horray!
     log_trace("Reading class file.");
-    FILE* f = svm_get_file_handle(class_file);
-    size_t file_length = svm_get_file_size(f);
-    unsigned char* data = svm_read_class_file(file_length, f);
+    FILE* f = get_file_handle(class_file);
+    size_t file_length = get_file_size(f);
+    unsigned char* data = read_class_file(file_length, f);
 
     log_trace("Parsing class representation (dumping when complete).");
-    svm_display_class_hex(data, file_length);
-    svm_class_representation* rep = svm_parse_class_file(file_length, data);
-    svm_print_class_overview(rep);
+    display_class_hex(data, file_length);
+    class_representation* rep = parse_class_file(file_length, data);
+    print_class_overview(rep);
 
     return EXIT_SUCCESS;
 }

@@ -1,4 +1,4 @@
-#include <svm_file.h>
+#include <file.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +7,6 @@
 #include <assert.h>
 #include <sys/mman.h>
 
-#include <svm_log.h>
+#include <log.h>
 
 

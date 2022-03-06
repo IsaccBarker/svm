@@ -1,4 +1,4 @@
-svm_sources = [
+sources = [
   'svm.c',
   'file.c',
   'class.c',
@@ -7,17 +7,17 @@ svm_sources = [
   'constant_pool.c',
 ]
 
-svm_args = [
+args = [
   '-DLOG_USE_COLOR',
   '-pedantic',
   '-Werror',
   '-std=c99'
 ]
 
-svm_incdirs = include_directories('../include')
+incdirs = include_directories('../include')
 
-exe = executable('svm', svm_sources,
+exe = executable('svm', sources,
   install : true,
-  include_directories : svm_incdirs,
-  c_args : svm_args)
+  include_directories : incdirs,
+  c_args : args)
 
