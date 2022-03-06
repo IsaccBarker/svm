@@ -18,6 +18,27 @@ void svm_invalid_command_argument(char* o, char* arg, char* hint) {
     fprintf(stderr, "svm: malformed argument for option `%s`: %s (hint: %s)\n", o, arg, hint);
 }
 
+void svm_print_help_message() {
+    printf("Usage: " SVM_NAME " [options]"
+            "Options:"
+            "\t--help -h <none>: Print this help message.\n"
+            "\t--version -V: Print the version of this software.\n"
+            "\t--class -c <jvm class file>: Specify the class file to run.\n"
+            "\t--verbosity -v <integer>: Specify the verbosity level\n"
+            "\t                              1-6, 0 = fatal, 1 = error... 6 = trace.\n"
+            "\t                              Must be compiled with verbosity to specify.\n"
+            "Home page, report bugs to: https://github.com/IsaccBarker/svm\n");
+}
+
+void svm_print_version_message() {
+    printf(SVM_NAME " " SVM_VERSION "\n"
+            "Copyright (C) 2022 Milo Banks (Isacc/Grey Barker)\n"
+            "License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>\n"
+            "This is free software: you are free to change and redistribute it.\n"
+            "There is NO WARRANTY, to the extent permitted by law.\n"
+    );
+}
+
 int main(int argc, char *argv[]) {
     int c;
     unsigned int class_file_length = 0;
@@ -28,10 +49,13 @@ int main(int argc, char *argv[]) {
         int option_index = 0;
         static struct option long_options[] = {
             {"class", required_argument, 0, 'c'},
+            {"help", no_argument, 0, 'h'},
+            {"version", no_argument, 0, 'V'},
+            {"verbosity", required_argument, 0, 'v'},
             {0, 0, 0, 0}
         };
 
-        c = getopt_long (argc, argv, "v:c:",
+        c = getopt_long(argc, argv, "hVv:c:",
                     long_options, &option_index);
 
         if (c == -1) { break; }
@@ -49,6 +73,18 @@ int main(int argc, char *argv[]) {
                 puts("\n");
 
                 break;
+            }
+
+            case 'h': {
+                svm_print_help_message();
+
+                exit(EXIT_SUCCESS);
+            }
+
+            case 'V': {
+                svm_print_version_message();
+
+                exit(EXIT_SUCCESS);
             }
 
             case 'v': {
