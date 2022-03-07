@@ -26,41 +26,41 @@ Those flags may be used to further fine tune your experience (recommended for an
 <summary>Flags</summary>
 <br>
 <ol>
-<li>*buildtype*
+<li><i>buildtype</i>
     <ol>
-    <li> *debug* is the default, which is not want you want if you are not developing or debugging.</li>
-    <li> *plain* will not include debug symbols, but won't do anything special.</li>
-    <li> *debugoptimized* builds an optimized debug build. This can break debugging *very* easily.</li>
-    <li> *release* does some optimizations, and doesn't include debug symbols.</li>
-    <li> *minimize* makes the library as small as possible. Usefull for embedding.</li>
+    <li> <i>debug</i> is the default, which is not want you want if you are not developing or debugging.</li>
+    <li> <i>plain</i> will not include debug symbols, but won't do anything special.</li>
+    <li> <i>debugoptimized</i> builds an optimized debug build. This can break debugging *very* easily.</li>
+    <li> <i>release</i> does some optimizations, and doesn't include debug symbols.</li>
+    <li> <i>minimize</i> makes the library as small as possible. Usefull for embedding.</li>
     </ol>
 </li>
-<li>*default_library*
+<li><i>default_library</i>
     <ol>
-    <li> *both* is the default, and builds both a static and dynamic library.</li>
-    <li> *static* builds a static library, which doesn't need to be present at runtime (baked into the application).</li>
-    <li> *shared* will build a shared library. Must be shipped with the applications, and might not be a good choice.</li>
+    <li> <i>both</i> is the default, and builds both a static and dynamic library.</li>
+    <li> <i>static</i> builds a static library, which doesn't need to be present at runtime (baked into the application).</li>
+    <li> <i>shared</i> will build a shared library. Must be shipped with the applications, and might not be a good choice.</li>
     </ol>
 </li>
-<li> *optimization*
+<li> <i>optimization</i>
     <ol>
-    <li> *O* is dependent on the buildtype (default on debug). Performs no optimizations.</li>
-    <li> *1* optimizes a little for size and performance, without having a large impact on compile time.</i>
-    <li> *2* optimizes for performance as much as possible without increasing size.</li>
-    <li> *3* optimizes as much as possible for performance, and doesn't give a f\*ck about binary size.</li>
-    <li> *s* enables all optimizations that have often have an effect on code size.</li>
-    <li> *g* enhances your debugging experience.</li>
+    <li> <i>O</i> is dependent on the buildtype (default on debug). Performs no optimizations.</li>
+    <li> <i>1</i> optimizes a little for size and performance, without having a large impact on compile time.</i>
+    <li> <i>2</i> optimizes for performance as much as possible without increasing size.</li>
+    <li> <i>3</i> optimizes as much as possible for performance, and doesn't give a f\*ck about binary size.</li>
+    <li> <i>s</i> enables all optimizations that have often have an effect on code size.</li>
+    <li> <i>g</i> enhances your debugging experience.</li>
     </ol>
 </li>
-<li> *werror*
+<li> <i>werror</i>
     <ol>
-    <li> *true* is the default. Errors on warnings.</li>
-    <li> *false* doesn't error on warnings. </li>
+    <li> <i>true</i> is the default. Errors on warnings.</li>
+    <li> <i>false</i> doesn't error on warnings. </li>
     </ol>
 </li>
-<li> *warning_level*
+<li> <i>warning_level</i>
     <ol>
-    <li> *0-3*, where 0 is the lowest, and 3 is the highest.</li>
+    <li> <i>0-3</i>, where 0 is the lowest, and 3 is the highest.</li>
     </ol
 </li>
 </ol>
