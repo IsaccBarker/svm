@@ -1,18 +1,15 @@
 <h1 align="center"><code>SVM</code></h1>
 <h2 align="center"><s>Shitty</s> Simple Virtual Machine</h2>
 
-## Capabilities
-Currently, this "JVM" is capable of running *very* simple Java 8 class files. The only functionality this thing supports is located in the example directory.
+#### Legal
+<sub>There's a lot of Oracle shady business that happens. If I'm carful here, I should keep the rights to this software, keeping it free and open, and, most importantly, away from Oracle's slimy grasp.
 
-This is no longer a school project. This aims to have a lighter footprint than some JVMs, in both memory and size. This will *no doubt* haunt me. This won't ever actually turn into something, but hey, it's educational :D
+This is why things might be phrased weird.</sub>
 
-## Platforms
-SVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C9<li> If not, please support an issue.
+# About
+Welcome to SVM! SVM aims to be able to understand and run Java 8 SE bytecode. Written in C99 and using only standard headers, it's very portable. It minimizes dynamic allocation wherever possible, and uses efficient techniques for the rest.
 
-### Tested platforms
-
-<li> Linux (Arch Linux)
-<li> Mac OS (Catalina)
+It also does other cool things, which you have to find for yourself! Totally not an excuse for my laziness.
 
 ## Building
 SVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library.
@@ -83,4 +80,14 @@ sudo ninja install
 
 ## Application development
 While SVM does provide documentation, it is recommended you suplement this with the reference binary.
+
+## Platforms
+SVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C9<li> If not, please support an issue.
+
+### Tested platforms
+
+<li> Linux (Arch Linux)
+<li> Mac OS (Catalina)
+
+
 
