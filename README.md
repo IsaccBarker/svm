@@ -20,8 +20,11 @@ Documentation is provided, but you should also look at the reference binary.
 
 You may find a full list of meson arguments [here](https://mesonbuild.com/Builtin-options.html), which may prove to be useful.
 
-Those flags may be used to further fine tune your experience (recommended for anything beyond a toy project). Some comman arguments have been listed beliw for convience:
+Those flags may be used to further fine tune your experience (recommended for anything beyond a toy project). Some comman arguments have been listed below for convience:
 
+<details open>
+<summary>Flags</summary>
+<br>
 1. `buildtype`
     1. `debug` is the default, which is not want you want if you are not developing or debugging.
     2. `plain` will not include debug symbols, but won't do anything special.
@@ -39,12 +42,13 @@ Those flags may be used to further fine tune your experience (recommended for an
     4. `3` optimizes as much as possible for performance, and doesn't give a f\*ck about binary size.
     5. `s` enables all optimizations that have often have an effect on code size.
     6. `g` enhances your debugging experience.
-4. werror
+4. `werror`
     1. `true` is the default. Errors on warnings.
     2. `false` doesn't error on warnings.
-5. warning_level
+5. `warning_level`
     1. `0-3`, where 0 is the lowest, and 3 is the highest.
-
+</pre>
+</details>
 
 ```bash
 # Configuration
