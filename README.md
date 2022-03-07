@@ -22,7 +22,7 @@ You may find a full list of meson arguments [here](https://mesonbuild.com/Builti
 
 Those flags may be used to further fine tune your experience (recommended for anything beyond a toy project). Some comman arguments have been listed below for convience:
 
-<details open>
+<details>
 <summary>Flags</summary>
 <br>
 <ol>
