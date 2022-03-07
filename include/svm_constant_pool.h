@@ -42,13 +42,12 @@
  */
 typedef struct {
     uint8_t tag;
-    size_t info_length;
     uint8_t* info;
 } cp_info;
 
 
-size_t constant_info_length(uint8_t tag, uint16_t first);
+int is_constant_info_tag(uint8_t tag);
 
-char* constant_info_as_string(uint8_t tag, uint16_t first);
+char* constant_info_as_string(uint8_t tag);
 
 #endif /* CONSTANT_POOL */

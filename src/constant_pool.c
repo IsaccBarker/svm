@@ -7,44 +7,44 @@
 
 #include <svm_log.h>
 
-size_t constant_info_length(uint8_t tag, uint16_t first) {
+int is_constant_info_tag(uint8_t tag) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
-            return 3;
+            break;
         case SVM_ACC_CONSTANT_FIELD_REF:
-            return 5;
+            break;
         case SVM_ACC_CONSTANT_METHOD_REF:
-            return 5;
+            break;
         case SVM_ACC_CONSTANT_INTERFACE_METHOD_REF:
-            return 5;
+            break;
         case SVM_ACC_CONSTANT_STRING:
-            return 3;
+            break;
         case SVM_ACC_CONSTANT_INTEGER:
-            return 5;
+            break;
         case SVM_ACC_CONSTANT_FLOAT:
-            return 5;
+            break;
         case SVM_ACC_CONSTANT_LONG:
-            return 9;
+            break;
         case SVM_ACC_CONSTANT_DOUBLE:
-            return 9;
+            break;
         case SVM_ACC_CONSTANT_NAME_AND_TYPE:
-            return 5;
+            break;
         case SVM_ACC_CONSTANT_UTF8:
-            return 2 + first;
+            break;
         case SVM_ACC_CONSTANT_METHOD_HANDLE:
-            return 4;
+            break;
         case SVM_ACC_CONSTANT_METHOD_TYPE:
-            return 3;
+            break;
         case SVM_ACC_CONSTANT_INVOKE_DYNAMIC:
-            return 5;
+            break;
         default:
-            log_error("Unknown constant pool tag (%d).", tag);
-
-            exit(EXIT_FAILURE);
+            return 0;
     }
+
+    return 1;
 }
 
-char* constant_info_as_string(uint8_t tag, __attribute__((unused)) uint16_t first) {
+char* constant_info_as_string(uint8_t tag) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
             return "Class";

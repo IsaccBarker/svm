@@ -154,7 +154,10 @@ int main(int argc, char *argv[]) {
     unsigned char* data = read_class_file(file_length, f);
 
     log_trace("Parsing class representation (dumping when complete).");
-    display_class_hex(data, file_length);
+    if (verbosity == 6) {
+        display_class_hex(data, file_length);
+    }
+
     class_representation* rep = parse_class_file(file_length, data);
     print_class_overview(rep);
 

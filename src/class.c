@@ -41,8 +41,6 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
 
     // Constant pool
     {
-        size_t constant_offset = 0;
-
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
         rep->constant_pool_count = (data[8] << 8) + (data[9]) - 1;
         head += 3;
@@ -55,36 +53,45 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
         }
 
         for (int i = 0; i < rep->constant_pool_count; i++) {
-            uint8_t tag = data[10+constant_offset];
-            uint16_t first = data[11+constant_offset] << 8;
-            size_t info_length;
-            uint8_t* info;
+            uint8_t tag = data[10+head];
+            uint8_t info[CONSTANT_TABLE_BYTE_CAP];
+            size_t constant_element_size = 0;
+            int terminated = 0;
 
-            first += data[12+constant_offset];
-            first += 1;
+            // 1042 is an arbitrary number that should be fine.
+            for (size_t l = 0; l < CONSTANT_TABLE_BYTE_CAP; l++) {
+                info[l] = data[11+l+head]; // data[11+l+constant_offset] << ((info_length-l) /* * 8 */ );
 
-            info_length = constant_info_length(tag, first);
-            constant_offset += info_length;
-            info = malloc(info_length * sizeof(uint8_t));
+                if (is_constant_info_tag(info[l])) {
+                    terminated = 1;
 
-            for (size_t l = 0; l < info_length; l++) {
-                if (l == info_length) {
-                    info[l] = data[11+l+constant_offset];
+                    break;
                 }
 
-                info[l] = data[11+l+constant_offset] << ((info_length-l)*8);
+                printf("%c", info[l]);
+
+                constant_element_size += 1;
+            }
+
+            printf("\n%d: ", i);
+
+            if (!terminated) {
+                log_fatal("Entry in constant pool exceeds 1024 bytes. This is most likely a bug, please report and attach a log.");
+
+                exit(EXIT_FAILURE);
             }
 
             cp_info cp_entry = {
                 .tag = tag,
-                .info_length = info_length,
                 .info = info
             };
 
             rep->constant_pool[i] = cp_entry;
+
+            head += constant_element_size + 1;
         }
 
-        head += constant_offset;
+        printf("\n");
     }
 
     // Simple science
@@ -125,7 +132,7 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
     }
 
     // Methods
-    {
+    /* {
         size_t size_of_method_info = (sizeof(uint16_t) * 4);
         size_t size_of_attribute_info = sizeof(uint8_t*) + sizeof(uint16_t) + sizeof(uint32_t);
         uint16_t methods_count = data[head];
@@ -202,7 +209,7 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
         }
 
         // TODO: Our main class (for the demo only) doesn't have any class-wide attributes. Let's ignore this.
-    }
+    } */
 
     return rep;
 }
@@ -232,8 +239,10 @@ void print_class_overview(class_representation* r) {
     log_debug("Constant Pool Count   : %d", r->constant_pool_count);
 
     for (int i = 0; i < r->constant_pool_count; i++) {
-        log_trace("\t%d: %s", i,
-                constant_info_as_string(r->constant_pool[i].tag, r->constant_pool[i].info[0]));
+        cp_info current_constant = r->constant_pool[i];
+
+        log_trace("\t%d: %s: %s", i,
+                constant_info_as_string(current_constant.tag), current_constant.info);
     }
 
     log_debug("Access Flags (s)      : %04X", r->access_flags);

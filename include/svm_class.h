@@ -11,6 +11,8 @@
 #include <svm_constant_pool.h>
 #include <svm_field_info.h>
 
+#define CONSTANT_TABLE_BYTE_CAP 1024
+
 #define BYTE_TO_BINARY_PATTERN "%c%c%c%c%c%c%c%c"
 #define BYTE_TO_BINARY(byte)  \
   (byte & 0x80 ? '1' : '0'), \
