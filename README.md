@@ -2,7 +2,7 @@
 <h2 align="center"><s>Shitty</s> Simple Virtual Machine</h2>
 
 #### Legal
-<sub>There's a lot of Oracle shady business that happens. If I'm carful here, I should keep the rights to this software, keeping it free and open, and, most importantly, away from Oracle's slimy grasp.</br>This is why things might be phrased weird.</sub>
+<sub>There's a lot of Oracle shady business that happens. If I'm carful here, I should keep the rights to this software, keeping it free and open, and, most importantly, away from Oracle's slimy grasp. This is why things might be phrased weird.</sub>
 
 # About
 Welcome to SVM! SVM aims to be able to understand and run Java 8 SE bytecode. Written in C99 and using only standard headers, it's very portable. It minimizes dynamic allocation wherever possible, and uses efficient techniques for the rest.
