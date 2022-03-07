@@ -21,7 +21,6 @@ svm_export_headers = [
 svm_args = [
   '-DLOG_USE_COLOR',
   '-pedantic',
-  '-Werror',
   '-std=c99'
 ]
 

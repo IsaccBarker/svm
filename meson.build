@@ -1,6 +1,6 @@
 project('svm', 'cpp', 'c',
   version : '0.1',
-  default_options : ['warning_level=3', 'c_std=c89'])
+  default_options : ['warning_level=3', 'c_std=c99', 'default_library=both', 'werror=true'])
 
 subdir('src')
 

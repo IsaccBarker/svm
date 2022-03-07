@@ -15,36 +15,40 @@ SVM uses only C99 standard headers and platform independent code, so it should w
 2. Mac OS (Catalina)
 
 ## Building
-SVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library. Documentation is provided, but you should also look at the reference binary.
+SVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library.
+Documentation is provided, but you should also look at the reference binary.
 
-By default, `meson` (SVM's build system) will spit out a dynamic library. You may find a full list of meson arguments [here](https://mesonbuild.com/Builtin-options.html), which may prove to be useful.
+You may find a full list of meson arguments [here](https://mesonbuild.com/Builtin-options.html), which may prove to be useful.
+
+Those flags may be used to further fine tune your experience (recommended for anything beyond a toy project). Some comman arguments have been listed beliw for convience:
+
+1. `buildtype`
+    1. `debug` is the default, which is not want you want if you are not developing or debugging.
+    2. `plain` will not include debug symbols, but won't do anything special.
+    3. `debugoptimized` builds an optimized debug build. This can break debugging *very* easily.
+    4. `release` does some optimizations, and doesn't include debug symbols.
+    5. `minimize` makes the library as small as possible. Usefull for embedding.
+2. `default_library`
+    1. `both` is the default, and builds both a static and dynamic library.
+    2. `static` builds a static library, which doesn't need to be present at runtime (baked into the application).
+    3. `shared` will build a shared library. Must be shipped with the applications, and might not be a good choice.
+3. `optimization`
+    1. `O` is dependent on the buildtype (default on debug). Performs no optimizations.
+    2. `1` optimizes a little for size and performance, without having a large impact on compile time.
+    3. `2` optimizes for performance as much as possible without increasing size.
+    4. `3` optimizes as much as possible for performance, and doesn't give a f\*ck about binary size.
+    5. `s` enables all optimizations that have often have an effect on code size.
+    6. `g` enhances your debugging experience.
+4. werror
+    1. `true` is the default. Errors on warnings.
+    2. `false` doesn't error on warnings.
+5. warning_level
+    1. `0-3`, where 0 is the lowest, and 3 is the highest.
+
+
 ```bash
 # Configuration
 # You can substitute meson arguments for <arguments>, or none at all. Some common arguments have been listed for convience:
-#   buildtype
-#       `debug` is the default, which is not want you want if you are not developing or debugging.
-#       `plain` will not include debug symbols, but won't do anything special.
-#       `debugoptimized` builds an optimized debug build. This can break debugging *very* easily.
-#       `release` does some optimizations, and doesn't include debug symbols.
-#       `minimize` makes the library as small as possible. Usefull for embedding.
-#   default_library
-#       `both` is the default, and builds both a static and dynamic library.
-#       `static` builds a static library, which doesn't need to be present at runtime (baked into the application).
-#       `shared` will build a shared library. Must be shipped with the applications, and might not be a good choice.
-#   optimization
-#       `O` is dependent on the buildtype (default on debug). Performs no optimizations.
-#       `1` optimizes a little for size and performance, without having a large impact on compile time.
-#       `2` optimizes for performance as much as possible without increasing size.
-#       `3` optimizes as much as possible for performance, and doesn't give a f*ck about binary size.
-#       `s` enables all optimizations that have often have an effect on code size.
-#       `g` enhances your debugging experience.
-#   werror
-#       `true` is the default. Errors on warnings.
-#       `false` doesn't error on warnings.
-#   warning_level
-#       `0-3`, where 0 is the lowest, and 3 is the highest.
-#
-#   Other flags may be used to further fine tune your experience (recommended for anything beyond a toy project).
 meson setup <arguments> builddir && cd builddir
 
 # Building
@@ -55,4 +59,7 @@ ninja
 # Installs the library headers, the library itself, and the reference VM.
 sudo ninja install
 ```
+
+## Application development
+While SVM does provide documentation, it is recommended you suplement this with the reference binary.
 
