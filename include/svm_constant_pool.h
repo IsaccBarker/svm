@@ -43,11 +43,11 @@
 typedef struct {
     uint8_t tag;
     uint8_t* info;
-} cp_info;
+} svm_class_cp_info;
 
 
-int is_constant_info_tag(uint8_t tag);
+int svm_is_constant_info_tag(uint8_t tag);
 
-char* constant_info_as_string(uint8_t tag);
+char* svm_constant_info_as_string(uint8_t tag);
 
 #endif /* CONSTANT_POOL */

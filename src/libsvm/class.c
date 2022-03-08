@@ -13,9 +13,9 @@
 #include <svm_constant_pool.h>
 #include <svm_method_info.h>
 
-class_representation* parse_class_file(size_t file_length, unsigned char* data) {
+svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char* data) {
     uint16_t head = 0;
-    class_representation* rep = malloc(file_length);
+    svm_class_representation* rep = malloc(file_length);
 
     if (rep == NULL) {
         log_fatal("Failed to allocate memory to create class rep (%d): %s", file_length, strerror(errno));
@@ -44,10 +44,10 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
         rep->constant_pool_count = (data[8] << 8) + (data[9]) - 1;
         head += 3;
-        rep->constant_pool = malloc(sizeof(cp_info) * rep->constant_pool_count);
+        rep->constant_pool = malloc(sizeof(svm_class_cp_info) * rep->constant_pool_count);
 
         if (rep->constant_pool == NULL) {
-            log_fatal("Failed to allocate memory for constant pool (%d): %s", sizeof(cp_info) * rep->constant_pool_count, strerror(errno));
+            log_fatal("Failed to allocate memory for constant pool (%d): %s", sizeof(svm_class_cp_info) * rep->constant_pool_count, strerror(errno));
 
             exit(EXIT_FAILURE);
         }
@@ -62,7 +62,7 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
             for (size_t l = 0; l < CONSTANT_TABLE_BYTE_CAP; l++) {
                 info[l] = data[11+l+head]; // data[11+l+constant_offset] << ((info_length-l) /* * 8 */ );
 
-                if (is_constant_info_tag(info[l])) {
+                if (svm_is_constant_info_tag(info[l])) {
                     terminated = 1;
 
                     break;
@@ -81,7 +81,7 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
                 exit(EXIT_FAILURE);
             }
 
-            cp_info cp_entry = {
+            svm_class_cp_info cp_entry = {
                 .tag = tag,
                 .info = info
             };
@@ -127,7 +127,7 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
         uint16_t fields_count = data[head];
         rep->fields_count = fields_count;
 
-        head += fields_count * sizeof(field_info);
+        head += fields_count * sizeof(svm_class_field_info);
         head += sizeof(uint16_t) * 2;
     }
 
@@ -214,7 +214,7 @@ class_representation* parse_class_file(size_t file_length, unsigned char* data) 
     return rep;
 }
 
-void display_class_hex(unsigned char* data, size_t file_length) {
+void svm_display_class_hex(unsigned char* data, size_t file_length) {
     log_debug("Hexadecimal notation:");
     printf("0:\t");
     for (unsigned int i = 0; i < file_length; i++) {
@@ -232,17 +232,17 @@ void display_class_hex(unsigned char* data, size_t file_length) {
     printf("\n");
 }
 
-void print_class_overview(class_representation* r) {
+void svm_print_class_overview(svm_class_representation* r) {
     log_debug("Magic                 : %08X", r->magic);
     log_debug("Minor Version         : (0x%04X, %d)", r->minor_ver, r->minor_ver);
     log_debug("Major Version         : (0x%04X, %d)", r->major_ver, r->major_ver);
     log_debug("Constant Pool Count   : %d", r->constant_pool_count);
 
     for (int i = 0; i < r->constant_pool_count; i++) {
-        cp_info current_constant = r->constant_pool[i];
+        svm_class_cp_info current_constant = r->constant_pool[i];
 
         log_trace("\t%d: %s: %s", i,
-                constant_info_as_string(current_constant.tag), current_constant.info);
+                svm_constant_info_as_string(current_constant.tag), current_constant.info);
     }
 
     log_debug("Access Flags (s)      : %04X", r->access_flags);
@@ -255,14 +255,14 @@ void print_class_overview(class_representation* r) {
     log_debug("Methods Count         : %d", r->methods_count);
 
     for (int i = 0; i < r->methods_count; i++) {
-        method_info current = r->methods[i];
+        svm_class_method_info current = r->methods[i];
 
         log_trace("\t%d: Access: %d (%04X), Name Index: %d (%04X), Descriptor Index: %d (%04X), Attributes Count: %d (%04X)", i,
                 current.access_flags, current.access_flags, current.name_index, current.name_index,
                 current.descriptor_index, current.descriptor_index, current.attributes_count, current.attributes_count);
 
         for (int l = 0; l < current.attributes_count; l++) {
-            attribute_info atrib = current.attributes[l];
+            svm_class_attribute_info atrib = current.attributes[l];
 
             log_trace("\t\tAttribute %d -- Name Index: %d (%04X), Info Length: %d (%04X), Info: %s", l,
                     atrib.name_index, atrib.name_index,

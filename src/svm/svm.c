@@ -7,7 +7,7 @@
 #include <svm_const.h>
 #include <svm_globals.h>
 #include <svm_class.h>
-#include <svm_class_file.h>
+#include <class_file.h>
 #include <svm_log.h>
 
 void invalid_command_argument(char* o, char* arg, char* hint) {
@@ -155,11 +155,11 @@ int main(int argc, char *argv[]) {
 
     log_trace("Parsing class representation (dumping when complete).");
     if (verbosity == 6) {
-        display_class_hex(data, file_length);
+        svm_display_class_hex(data, file_length);
     }
 
-    class_representation* rep = parse_class_file(file_length, data);
-    print_class_overview(rep);
+    svm_class_representation* rep = svm_parse_class_file(file_length, data);
+    svm_print_class_overview(rep);
 
     return EXIT_SUCCESS;
 }

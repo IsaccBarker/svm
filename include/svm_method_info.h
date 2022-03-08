@@ -42,8 +42,8 @@ typedef struct {
     uint16_t name_index;
     uint16_t descriptor_index;
     uint16_t attributes_count;
-    attribute_info* attributes;
-} method_info;
+    svm_class_attribute_info* attributes;
+} svm_class_method_info;
 
 
 #endif /* SVM_METHOD_INFO */

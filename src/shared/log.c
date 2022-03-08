@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  */
 
+#ifndef SVM_NO_LOG
+
 #include <svm_log.h>
 
 #define MAX_CALLBACKS 32
@@ -166,3 +168,15 @@ void log_log(int level, const char *file, int line, const char *fmt, ...) {
 
   unlock();
 }
+
+#else /* SVM_NO_LOG */
+
+const char* log_level_string(int level) {}
+void log_set_lock(log_LockFn fn, void *udata) {}
+void log_set_level(int level) {}
+void log_set_quiet(bool enable) {}
+int log_add_callback(log_LogFn fn, void *udata, int level) {}
+int log_add_fp(FILE *fp, int level) {}
+void log_log(int level, const char *file, int line, const char *fmt, ...) {}
+
+#endif /* SVM_NO_LOG */

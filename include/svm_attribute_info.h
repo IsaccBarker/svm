@@ -5,7 +5,7 @@ typedef struct {
     uint16_t name_index;
     uint32_t info_length;
     uint8_t* info;
-} attribute_info;
+} svm_class_attribute_info;
 
 #endif /* SVM_ATTRIBUTE_INFO */
 

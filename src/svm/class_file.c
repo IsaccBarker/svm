@@ -1,4 +1,4 @@
-#include <svm_class_file.h>
+#include <class_file.h>
 
 #include <stdlib.h>
 #include <stdio.h>

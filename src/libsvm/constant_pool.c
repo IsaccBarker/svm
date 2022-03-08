@@ -7,7 +7,7 @@
 
 #include <svm_log.h>
 
-int is_constant_info_tag(uint8_t tag) {
+int svm_is_constant_info_tag(uint8_t tag) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
             break;
@@ -44,7 +44,7 @@ int is_constant_info_tag(uint8_t tag) {
     return 1;
 }
 
-char* constant_info_as_string(uint8_t tag) {
+char* svm_constant_info_as_string(uint8_t tag) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
             return "Class";
