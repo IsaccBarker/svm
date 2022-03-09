@@ -33,17 +33,17 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
             log_warn("Class's magic value is not CAFEBABE (3405691582). Possibly corrupted file, or not JVM class file? Continuing...");
         }
 
-        rep->minor_ver = (data[4] << 8) + (data[5]);
+        rep->minor_ver = (data[head] << 8) + (data[head+1]);
         head += 2;
-        rep->major_ver = (data[6] << 8) + (data[7]);
+        rep->major_ver = (data[head] << 8) + (data[head+1]);
         head += 2;
     }
 
     // Constant pool
     {
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
-        rep->constant_pool_count = (data[8] << 8) + (data[9]) - 1;
-        head += 3;
+        rep->constant_pool_count = (data[head] << 8) + (data[head+1]) - 1;
+        head += 1;
         rep->constant_pool = malloc(sizeof(svm_class_cp_info) * rep->constant_pool_count);
 
         if (rep->constant_pool == NULL) {
@@ -53,42 +53,8 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
         }
 
         for (int i = 0; i < rep->constant_pool_count; i++) {
-            uint8_t tag = data[10+head];
-            uint8_t info[CONSTANT_TABLE_BYTE_CAP];
-            size_t constant_element_size = 0;
-            int terminated = 0;
-
-            // 1042 is an arbitrary number that should be fine.
-            for (size_t l = 0; l < CONSTANT_TABLE_BYTE_CAP; l++) {
-                info[l] = data[11+l+head]; // data[11+l+constant_offset] << ((info_length-l) /* * 8 */ );
-
-                if (svm_is_constant_info_tag(info[l])) {
-                    terminated = 1;
-
-                    break;
-                }
-
-                printf("%c", info[l]);
-
-                constant_element_size += 1;
-            }
-
-            printf("\n%d: ", i);
-
-            if (!terminated) {
-                log_fatal("Entry in constant pool exceeds 1024 bytes. This is most likely a bug, please report and attach a log.");
-
-                exit(EXIT_FAILURE);
-            }
-
-            svm_class_cp_info cp_entry = {
-                .tag = tag,
-                .info = info
-            };
-
-            rep->constant_pool[i] = cp_entry;
-
-            head += constant_element_size + 1;
+            uint8_t tag = data[head];
+            char info[CONSTANT_TABLE_BYTE_CAP];
         }
 
         printf("\n");
@@ -241,7 +207,7 @@ void svm_print_class_overview(svm_class_representation* r) {
     for (int i = 0; i < r->constant_pool_count; i++) {
         svm_class_cp_info current_constant = r->constant_pool[i];
 
-        log_trace("\t%d: %s: %s", i,
+        log_trace("\t%d: %s: %s", i+1,
                 svm_constant_info_as_string(current_constant.tag), current_constant.info);
     }
 

@@ -47,33 +47,33 @@ int svm_is_constant_info_tag(uint8_t tag) {
 char* svm_constant_info_as_string(uint8_t tag) {
     switch (tag) {
         case SVM_ACC_CONSTANT_CLASS:
-            return "Class";
+            return "CLASS";
         case SVM_ACC_CONSTANT_FIELD_REF:
-            return "Field Reference";
+            return "FIELD_REF";
         case SVM_ACC_CONSTANT_METHOD_REF:
-            return "Method Reference";
+            return "METHOD_REF";
         case SVM_ACC_CONSTANT_INTERFACE_METHOD_REF:
-            return "Interface Method Reference";
+            return "INTERFACE_METHOD_REF";
         case SVM_ACC_CONSTANT_STRING:
-            return "String";
+            return "STRING";
         case SVM_ACC_CONSTANT_INTEGER:
-            return "Integer";
+            return "INTEGER";
         case SVM_ACC_CONSTANT_FLOAT:
-            return "Float";
+            return "FLOAT";
         case SVM_ACC_CONSTANT_LONG:
-            return "Long";
+            return "LONG";
         case SVM_ACC_CONSTANT_DOUBLE:
-            return "Double";
+            return "DOUBLE";
         case SVM_ACC_CONSTANT_NAME_AND_TYPE:
-            return "Name & Type";
+            return "NAME_AND_TYPE";
         case SVM_ACC_CONSTANT_UTF8:
-            return "UTF 8";
+            return "UTF8";
         case SVM_ACC_CONSTANT_METHOD_HANDLE:
-            return "Method Handle";
+            return "METHOD_HANDLE";
         case SVM_ACC_CONSTANT_METHOD_TYPE:
-            return "Method Type";
+            return "METHOD_TYPE";
         case SVM_ACC_CONSTANT_INVOKE_DYNAMIC:
-            return "Invoke Dynamic";
+            return "INVOKE_DYNAMIC";
         default:
             log_error("Unknown constant pool tag (%d).", tag);
 
