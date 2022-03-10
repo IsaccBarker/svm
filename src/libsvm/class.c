@@ -40,10 +40,14 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
 
     // Constant pool
     {
+        int entries_collected = 0;
+        size_t offset = 0;
+        char* buf = malloc(CONSTANT_TABLE_BYTE_CAP * sizeof(uint8_t));
+
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
         rep->constant_pool_count = (data[head] << 8) + (data[head+1]) - 1;
-        head += 2;
         rep->constant_pool = malloc(sizeof(svm_class_cp_info) * rep->constant_pool_count);
+        head += 2;
 
         if (rep->constant_pool == NULL) {
             log_fatal("Failed to allocate memory for constant pool (%d): %s", sizeof(svm_class_cp_info) * rep->constant_pool_count, strerror(errno));
@@ -51,17 +55,24 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
             exit(EXIT_FAILURE);
         }
 
-        for (int i = 0; i < rep->constant_pool_count; i++) {
-            // uint8_t tag = data[head];
-            // char info[CONSTANT_TABLE_BYTE_CAP];
+        while (entries_collected < rep->constant_pool_count) {
+            head++;
 
-            // printf("%s (%04X)\n", svm_constant_info_as_string(tag), tag);
+            if (offset > 2 && svm_is_constant_info_tag(data[head]) == 1) {
+                printf("\n%d: finished with new entry (of %s)...\n", entries_collected, svm_constant_info_as_string(data[head]));
+                offset = 0;
+                entries_collected++;
 
-            for (int i = 0; i < 10; i++) {
-                printf("%04X\n", data[head]);
+                memset(buf, 0, CONSTANT_TABLE_BYTE_CAP * sizeof(svm_class_cp_info));
 
-                head++;
+                continue;
             }
+
+            buf[offset] = data[head];
+
+            printf("%c(%02X)", buf[offset], buf[offset]);
+
+            offset++;
         }
 
         printf("\n");
