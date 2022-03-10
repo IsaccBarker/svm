@@ -70,6 +70,17 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
 
             buf[offset] = data[head];
 
+// kinda fucking hate you mr long
+// or maybe it's just the tempest?
+// nonetheless, you talk like a stuck up
+// philosophy professor for a bad
+// gilmore girls type thing spinoff.
+//
+// don't get me wrong, i love gilmore
+// girls, so i'm talking about a
+// *really bad* spinoff. almost
+// as bad as the tempest ;)
+
             printf("%c(%02X)", buf[offset], buf[offset]);
 
             offset++;
