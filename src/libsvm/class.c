@@ -9,7 +9,6 @@
 
 #include <svm_log.h>
 #include <svm_globals.h>
-#include <svm_class_file.h>
 #include <svm_constant_pool.h>
 #include <svm_method_info.h>
 
@@ -43,7 +42,7 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
     {
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
         rep->constant_pool_count = (data[head] << 8) + (data[head+1]) - 1;
-        head += 1;
+        head += 2;
         rep->constant_pool = malloc(sizeof(svm_class_cp_info) * rep->constant_pool_count);
 
         if (rep->constant_pool == NULL) {
@@ -53,8 +52,16 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
         }
 
         for (int i = 0; i < rep->constant_pool_count; i++) {
-            uint8_t tag = data[head];
-            char info[CONSTANT_TABLE_BYTE_CAP];
+            // uint8_t tag = data[head];
+            // char info[CONSTANT_TABLE_BYTE_CAP];
+
+            // printf("%s (%04X)\n", svm_constant_info_as_string(tag), tag);
+
+            for (int i = 0; i < 10; i++) {
+                printf("%04X\n", data[head]);
+
+                head++;
+            }
         }
 
         printf("\n");
