@@ -5,9 +5,7 @@
 <sub>There's a lot of Oracle shady business that happens. If I'm carful here, I should keep the rights to this software, keeping it free and open, and, most importantly, away from Oracle's slimy grasp. This is why things might be phrased weird.</sub>
 
 # About
-Welcome to SVM! SVM aims to be able to understand and run Java 8 SE bytecode. Written in C99 and using only standard headers, it's very portable (although you'll probably want to use a pretty modern compiler to get the most bang for your buck). It minimizes dynamic allocation wherever possible, and uses efficient techniques for the rest.
-
-It also does other cool things, which you have to find for yourself! Totally not an excuse for my laziness.
+SVM aims to be a compact and efficient language virtual machine for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
 
 ## Building
 SVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library.
