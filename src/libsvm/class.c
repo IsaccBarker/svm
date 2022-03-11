@@ -40,56 +40,75 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
 
     // Constant pool
     {
-        int entries_collected = 0;
-        size_t offset = 0;
-        char* buf = malloc(CONSTANT_TABLE_BYTE_CAP * sizeof(uint8_t));
+        int constants_recognized = 0;
+        int bytes_in_current_constant = 0;
+        // size_t offset = 0;
+        uint8_t tag;
+        uint8_t* buf = malloc(CONSTANT_TABLE_BYTE_CAP * sizeof(uint8_t));
+
+        if (buf == NULL) {
+            log_fatal("Failed to allocate memory for constant pool info (%d): %s", CONSTANT_TABLE_BYTE_CAP * sizeof(uint8_t), strerror(errno));
+
+            exit(EXIT_FAILURE);
+        }
 
         // https://stackoverflow.com/questions/23674727/jvm-class-format-why-is-constant-pool-count-one-larger-than-it-should-be
         rep->constant_pool_count = (data[head] << 8) + (data[head+1]) - 1;
         rep->constant_pool = malloc(sizeof(svm_class_cp_info) * rep->constant_pool_count);
         head += 2;
 
+        // Get that first tag.
+        tag = data[head];
+
+        // head += 1;
+
         if (rep->constant_pool == NULL) {
-            log_fatal("Failed to allocate memory for constant pool (%d): %s", sizeof(svm_class_cp_info) * rep->constant_pool_count, strerror(errno));
+            log_fatal("Failed to allocate memory for constant pool (%d): %s\n", sizeof(svm_class_cp_info) * rep->constant_pool_count, strerror(errno));
 
             exit(EXIT_FAILURE);
         }
 
-        while (entries_collected < rep->constant_pool_count) {
-            head++;
+        printf("starting tag: %s (%d, %d)\n", svm_constant_info_as_string(data[head]),data[head], head);
 
-            if (offset > 2 && svm_is_constant_info_tag(data[head]) == 1) {
-                printf("\n%d: finished with new entry (of %s)...\n", entries_collected, svm_constant_info_as_string(data[head]));
-                offset = 0;
-                entries_collected++;
+        head += 1;
 
-                memset(buf, 0, CONSTANT_TABLE_BYTE_CAP * sizeof(svm_class_cp_info));
+        while (constants_recognized < rep->constant_pool_count) {
+            uint8_t byte = data[head];
 
-                continue;
+            printf("%d --- ", constants_recognized+1);
+
+            if (bytes_in_current_constant > 1) {
+                printf("-- ");
+
+                printf("\t\t%d && %d ", tag == SVM_ACC_CONSTANT_UTF8, data[head] == 0x01);
+
+                if ((tag == SVM_ACC_CONSTANT_UTF8 && data[head] == 0x01) || bytes_in_current_constant % 2 == 0) {
+                    printf("-- ");
+
+                    if (svm_is_constant_info_tag(byte)) {
+                        printf("%02X (%s)\n\n", data[head], svm_constant_info_as_string(data[head]));
+
+                        tag = data[head];
+
+                        bytes_in_current_constant = 0;
+                        head += 1;
+                        constants_recognized += 1;
+
+                        continue;
+                    }
+                }
             }
 
-            buf[offset] = data[head];
+            printf("%02X, %c (%d)\n", byte, byte, bytes_in_current_constant);
 
-// kinda fucking hate you mr long
-// or maybe it's just the tempest?
-// nonetheless, you talk like a stuck up
-// philosophy professor for a bad
-// gilmore girls type thing spinoff.
-//
-// don't get me wrong, i love gilmore
-// girls, so i'm talking about a
-// *really bad* spinoff. almost
-// as bad as the tempest ;)
-
-            printf("%c(%02X)", buf[offset], buf[offset]);
-
-            offset++;
+            bytes_in_current_constant += 1;
+            head += 1;
         }
 
         printf("\n");
     }
 
-    // Simple science
+   /*  // Simple science
     {
         // TODO Access flags (we don't need this for the demo, still nice to have)
         uint16_t access_flags = (data[head] << data[head+1]);
@@ -124,7 +143,7 @@ svm_class_representation* svm_parse_class_file(size_t file_length, unsigned char
 
         head += fields_count * sizeof(svm_class_field_info);
         head += sizeof(uint16_t) * 2;
-    }
+    } */
 
     // Methods
     /* {
