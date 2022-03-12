@@ -1,7 +1,10 @@
 # SVM: Simple (language) Virtual Machine
 
 # About
-SVM aims to be a compact and efficient language virtual machine for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
+SVM aims to be a compact language virtual machine (JVM 17) for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
+
+## Reference
+This project uses the [Oracle's Java SE 17 JVM Specification](https://docs.oracle.com/javase/specs/jvms/se17/jvms17.pdf) as reference.
 
 ## Building
 SVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library.
