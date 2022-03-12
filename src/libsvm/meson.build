@@ -1,17 +1,11 @@
 libsvm_sources = [
   'class.c',
-  'constant_pool.c',
   '../shared/log.c',
 ]
 
 libsvm_export_headers = [
-  '../../include/svm_attribute_info.h',
-  '../../include/svm_class.h',
   '../../include/svm_const.h',
-  '../../include/svm_constant_pool.h',
-  '../../include/svm_field_info.h',
-  '../../include/svm_globals.h',
-  '../../include/svm_method_info.h',
+  '../../include/svm_class.h',
   '../../include/svm_log.h',
 ]
 

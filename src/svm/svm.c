@@ -5,9 +5,6 @@
 #include <assert.h>
 
 #include <svm_const.h>
-#include <svm_globals.h>
-#include <svm_class.h>
-#include <class_file.h>
 #include <svm_log.h>
 
 void invalid_command_argument(char* o, char* arg, char* hint) {
@@ -148,7 +145,7 @@ int main(int argc, char *argv[]) {
     log_set_level(6-verbosity);
 
     // Horray!
-    log_trace("Reading class file.");
+    /* log_trace("Reading class file.");
     FILE* f = get_file_handle(class_file);
     size_t file_length = get_file_size(f);
     unsigned char* data = read_class_file(file_length, f);
@@ -159,7 +156,7 @@ int main(int argc, char *argv[]) {
     }
 
     svm_class_representation* rep = svm_parse_class_file(file_length, data);
-    svm_print_class_overview(rep);
+    svm_print_class_overview(rep); */
 
     return EXIT_SUCCESS;
 }
