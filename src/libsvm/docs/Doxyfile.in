@@ -1,0 +1,33 @@
+# General information
+PROJECT_NAME          = libsvm
+OUTPUT_DIRECTORY      = @DOXYGEN_OUTPUT@
+OUTPUT_LANGUAGE       = English
+TAB_SIZE              = 2
+EXTRACT_ALL           = YES
+OPTIMIZE_OUTPUT_FOR_C = YES
+DOXYFILE_ENCODING     = UTF-8
+TYPEDEF_HIDES_STRUCT  = YES
+
+# Warning and progress messages
+QUIET                = YES
+WARNINGS             = YES
+WARN_IF_UNDOCUMENTED = YES
+
+# Input files
+INPUT                  = @DOXYGEN_INPUT@ @DOXYGEN_PROJECT_ROOT@/src/libsvm/docs/README.md
+USE_MDFILE_AS_MAINPAGE = @DOXYGEN_PROJECT_ROOT@/src/libsvm/docs/README.md
+FILE_PATTERNS          = *.h *.c
+RECURSIVE              = YES
+
+# Output files
+GENERATE_HTML     = YES
+GENERATE_TREEVIEW = YES
+GENERATE_LATEX    = NO
+GENERATE_RTF      = NO
+GENERATE_XML      = NO
+
+SOURCE_BROWSER = YES
+
+# HTML settings
+HTML_TIMESTAMP = NO
+

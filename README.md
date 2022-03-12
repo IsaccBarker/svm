@@ -79,7 +79,7 @@ While SVM does provide documentation, it is recommended you suplement this with 
 ## Platforms
 SVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C9<li> If not, please support an issue.
 
-### Tested platforms
+## Tested platforms
 
 <li> Linux (Arch Linux)
 <li> Mac OS (Catalina)

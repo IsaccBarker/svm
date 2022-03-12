@@ -1,0 +1,6 @@
+option('enable-docs',
+  type: 'boolean',
+  value: false,
+  description: 'Build Doxygen documentation if available.'
+)
+

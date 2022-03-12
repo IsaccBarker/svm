@@ -33,3 +33,7 @@ pkg_mod.generate(libraries : libsvm_lib,
                  filebase : 'svm',
                  description : 'A lightweight embeddable JVM.')
 
+if get_option('enable-docs') and doxygen.found()
+  subdir('docs')
+endif
+
