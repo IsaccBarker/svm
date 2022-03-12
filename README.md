@@ -1,8 +1,4 @@
-<h1 align="center"><code>SVM</code></h1>
-<h2 align="center"><s>Shitty</s> Simple Virtual Machine</h2>
-
-#### Legal
-<sub>There's a lot of Oracle shady business that happens. If I'm carful here, I should keep the rights to this software, keeping it free and open, and, most importantly, away from Oracle's slimy grasp. This is why things might be phrased weird.</sub>
+# SVM: Simple (language) Virtual Machine
 
 # About
 SVM aims to be a compact and efficient language virtual machine for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
