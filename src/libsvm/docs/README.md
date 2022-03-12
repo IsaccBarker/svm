@@ -1,7 +1,7 @@
 # SVM
 Welcome to the SVM documentation! There's a lot of sightseeing to do. You may have to venture off the beaten path, however, as not everything is documented :/
 
-SVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C9<li> If not, please support an issue.
+SVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C99. If not, please support an issue.
 
 This project uses the [Oracle's Java SE 17 JVM Specification](https://docs.oracle.com/javase/specs/jvms/se17/jvms17.pdf) as reference.
 
