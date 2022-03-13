@@ -19,9 +19,10 @@ svm_class* svm_parse_class(unsigned char* src, size_t length) {
 
     // Start parsing the class
     read_head += svm_class_get_magic(class, src, read_head);
-    read_head += svm_class_get_major(class, src, read_head);
     read_head += svm_class_get_minor(class, src, read_head);
+    read_head += svm_class_get_major(class, src, read_head);
 
+    svm_verify_version_validity(class);
     svm_account_for_preview_features(class);
 
     return class;
@@ -32,8 +33,9 @@ void svm_dump_class(svm_class* class) {
 
     log_debug("Meta: ");
     log_debug("\tPreview Features: %d", class->meta.feature_preview);
-    log_debug("Magic         : %08X", class->magic);
-    log_debug("Major Version : %d (%04X)", class->major_version, class->major_version);
-    log_debug("Minor Version : %d (%04X)", class->minor_version, class->minor_version);
+    log_debug("Magic         : 0x%08X", class->magic);
+    log_debug("Minor Version : %d (0x%04X)", class->minor_version, class->minor_version);
+    log_debug("Major Version : %d (0x%04X)", class->major_version, class->major_version);
+    log_debug("Human Version : %s", svm_get_human_java_version(class));
 }
 

@@ -29,5 +29,16 @@ uint16_t svm_class_get_minor(svm_class* class, unsigned char* src, size_t offset
  * \param class The class to put the result into, that was calculated using the same class. */
 void svm_account_for_preview_features(svm_class* class);
 
+/** Verifies some elements of the version. Verifies version ranges, and make
+ * sure the bytecode isn't compiled for a JVM supporting over Java SE 17.
+ * For more information, view the text right beneath the table in section
+ * 4.1-A. */
+void svm_verify_version_validity(svm_class* class);
+
+/** Gets the human readable version of the version in the class.
+ * See the table in section 4.1-A. For example, 61 corasponds to
+ * Java SE 17, 52 to Java SE 8, etc... Ignores the minor version. */
+char* svm_get_human_java_version(svm_class* class);
+
 #endif /* SVM_CLASS_VERSION_H */
 
