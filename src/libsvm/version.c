@@ -1,4 +1,4 @@
-#include <svm_class_version.h>
+#include <svm_version.h>
 
 #include <svm_log.h>
 
@@ -62,9 +62,13 @@ void impl_check_minor_status(uint16_t major_version, uint16_t minor_version) {
 }
 
 void impl_check_incompatable_bytecode_by_version(uint16_t major_version) {
-    // We only care about bytecode that was compiled for a JVM past
-    // Java SE 17. Mostly.
-    // https://stackoverflow.com/questions/49445775/is-java-byte-code-always-forward-compatible
+    /** We only care about bytecode that was compiled for a JVM past
+     * Java SE 17. Mostly; almost all bytecode is forwards compatable,
+     * except really old bytecode, which really only are missing a few
+     * opcodes. They really are like Microsoft in their quest for
+     * backwards compatability.
+     * https://stackoverflow.com/questions/49445775/is-java-byte-code-always-forward-compatible
+     */
 
     if (major_version > SVM_JAVA_17_0) {
         log_fatal("The JVM bytecode was compiled for a version newer than Java SE 17.");
