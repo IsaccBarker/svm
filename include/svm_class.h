@@ -10,7 +10,7 @@ typedef struct {
     uint16_t minor_version;
     uint16_t major_version;
     uint16_t constant_pool_count;
-} svm_constant_pool_entry ;
+} svm_constant_pool_entry;
 
 #endif /* SVM_CLASS_H */
 
