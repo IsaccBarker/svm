@@ -1,5 +1,7 @@
 libsvm_sources = [
   'class.c',
+  'magic.c',
+  'version.c',
   '../shared/log.c',
 ]
 
