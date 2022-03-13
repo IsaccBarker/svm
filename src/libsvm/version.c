@@ -26,8 +26,7 @@ void svm_account_for_preview_features(svm_class* class) {
      *  it has a major_version that corresponds to Java SE N (according to Table 4.1-
      *  A) and a minor_version of 65535. */
 
-    // 56 is the numeric value for Java 12.
-    if (class->major_version >= 56 &&
+    if (class->major_version >= SVM_JAVA_12_0 &&
             class->minor_version == 65535) {
         // Preview features nessisary.
 
@@ -38,8 +37,8 @@ void svm_account_for_preview_features(svm_class* class) {
 }
 
 void impl_check_minor_status(uint16_t major_version, uint16_t minor_version) {
-    if (major_version >= 45 &&
-            major_version >= 55) {
+    if (major_version >= SVM_JAVA_1_0_2 &&
+            major_version >= SVM_JAVA_11_0) {
         // Minor versions are allowed.
 
         // This looks pointless, and it is, but this
@@ -67,7 +66,7 @@ void impl_check_incompatable_bytecode_by_version(uint16_t major_version) {
     // Java SE 17. Mostly.
     // https://stackoverflow.com/questions/49445775/is-java-byte-code-always-forward-compatible
 
-    if (major_version > 61) {
+    if (major_version > SVM_JAVA_17_0) {
         log_fatal("The JVM bytecode was compiled for a version newer than Java SE 17.");
         exit(EXIT_FAILURE);
     }
@@ -82,27 +81,27 @@ char* svm_get_human_java_version(svm_class* class) {
     // Trivia ;) : https://stackoverflow.com/questions/58467204/why-do-java-class-file-versions-start-from-45
 
     switch (class->major_version) {
-        case 45: {
+        case SVM_JAVA_1_0_2: {
             return "1.0.2/1.1 (May 1996)";
         }
 
-        case 46: {
+        case SVM_JAVA_1_2: {
             return "1.2 (Feb. 1997)";
         }
 
-        case 47: {
+        case SVM_JAVA_1_3: {
             return "1.3 (Dec. 1998)";
         }
 
-        case 48: {
+        case SVM_JAVA_1_4: {
             return "1.4 (May 2000)";
         }
 
-        case 49: {
+        case SVM_JAVA_5_0: {
             return "5.0 (Sep. 2004)";
         }
 
-        case 50: {
+        case SVM_JAVA_6_0: {
             return "6.0 (Dec. 2006)";
         }
 
@@ -112,55 +111,59 @@ char* svm_get_human_java_version(svm_class* class) {
         // x86 was the open defacto (if you can't tell I like
         // computer history).
 
-        case 51: {
+        case SVM_JAVA_7_0: {
             return "7.0 (July 2011)";
         }
 
-        case 52: {
+        case SVM_JAVA_8_0: {
             return "8.0 (March 2014)";
         }
 
-        case 53: {
+        case SVM_JAVA_9_0: {
             return "9.0 (Sep. 2017)";
         }
 
         // From here on out, Java gets a new release
         // twice a year. Crazy!
 
-        case 54: {
+        case SVM_JAVA_10_0: {
             return "10.0 (March, 2018)";
         }
 
-        case 55: {
+        case SVM_JAVA_11_0: {
             return "11.0 (Sep. 2018)";
         }
 
-        case 56: {
+        case SVM_JAVA_12_0: {
             return "12.0 (March 2019)";
         }
 
-        case 57: {
+        case SVM_JAVA_13_0: {
             return "13.0 (Sep. 2019)";
         }
 
-        case 58: {
+        case SVM_JAVA_14_0: {
             return "14.0 (March 2020)";
         }
 
-        case 59: {
+        case SVM_JAVA_15_0: {
             return "15.0 (Sep. 2020)";
         }
 
-        case 60: {
+        case SVM_JAVA_16_0: {
             return "16.0 (March. 2021)";
         }
 
-        case 61: {
+        case SVM_JAVA_17_0: {
             return "17.0 (Sep. 2021)";
         }
 
         default: {
             log_fatal("Unknown Java version %d.", class->major_version);
+
+            if (class->major_version > SVM_JAVA_17_0) {
+                log_fatal("It looks like the specified Java version exceeds 61 (Java SE 17). Newer versions of Java are not allowed.");
+            }
 
             exit(EXIT_FAILURE);
         }

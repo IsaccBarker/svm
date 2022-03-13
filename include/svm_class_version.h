@@ -6,6 +6,24 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#define SVM_JAVA_1_0_2 45
+#define SVM_JAVA_1_2 46
+#define SVM_JAVA_1_3 47
+#define SVM_JAVA_1_4 48
+#define SVM_JAVA_5_0 49
+#define SVM_JAVA_6_0 50
+#define SVM_JAVA_7_0 51
+#define SVM_JAVA_8_0 52
+#define SVM_JAVA_9_0 53
+#define SVM_JAVA_10_0 54
+#define SVM_JAVA_11_0 55
+#define SVM_JAVA_12_0 56
+#define SVM_JAVA_13_0 57
+#define SVM_JAVA_14_0 58
+#define SVM_JAVA_15_0 59
+#define SVM_JAVA_16_0 60
+#define SVM_JAVA_17_0 61
+
 /** Gets the major version of Java that a class was compiled for.
  * \param class The class to put the result into.
  * \param src The source of the class binary.
