@@ -35,8 +35,12 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Meson Build
-        uses: BSFishy/meson-build@v1.0.3
-
-
+        
+      - run: |
+        sudo apt-get install protobuf-compiler
+        sudo apt-get install libsodium-dev
+        pip install meson ninja
+        meson setup builddir
+        export CC=gcc
+        meson build -C builddir/ -v 
+        ninja -C builddir 
