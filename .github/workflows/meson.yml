@@ -35,7 +35,7 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - run: |
         sudo apt-get install protobuf-compiler
         sudo apt-get install libsodium-dev
