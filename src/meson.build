@@ -1,3 +1,3 @@
-subdir('libgvm')
-subdir('gvm')
+subdir('libsvm')
+subdir('svm')
 

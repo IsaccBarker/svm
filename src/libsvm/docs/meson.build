@@ -7,7 +7,7 @@ if get_option('enable-docs') and doxygen.found()
 
   headers = []
 
-  foreach header : libgvm_export_headers
+  foreach header : libsvm_export_headers
     headers += '../' + header
   endforeach
 

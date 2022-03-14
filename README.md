@@ -1,16 +1,16 @@
 [![Meson Build](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml)
 [![CodeQL](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml)
 
+
+
 > <img src="https://media4.giphy.com/media/LZElUsjl1Bu6c/giphy.gif?cid=ecf05e474dzue7v5980rnrz669yo460hgq0dggb7ad0sqyqq&rid=giphy.gif&ct=g"></img>
 > 
-> **Garrot** the General Perrot. Our mascot ;)
+> **Jarrot** the Java Perrot. Our mascot ;)
 
 # GVM: General (language) Virtual Machine
 
 # About
-GVM aims to be a compact language virtual machine (compatable VM 17) for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
-
-Designed with Clojure in mind.
+GVM aims to be a compact language virtual machine (compatable Java SE 17) for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
 
 ## Reference
 This project uses the [Oracle's Java SE 17 JVM Specification](https://docs.oracle.com/javase/specs/jvms/se17/jvms17.pdf) as reference.

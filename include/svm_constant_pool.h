@@ -1,7 +1,7 @@
 #ifndef SVM_CONSTANT_POOL_H
 #define SVM_CONSTANT_POOL_H
 
-#include <gvm_class.h>
+#include <svm_class.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -42,81 +42,81 @@
 typedef struct {
     uint8_t tag;
     void* further;
-} gvm_class_cp_info;
+} svm_class_cp_info;
 
 typedef struct {
     uint16_t name_index;
-} gvm_class_class;
+} svm_class_class;
 
 typedef struct {
     uint16_t class_index;
     uint16_t name_and_type_index;
-} gvm_class_field_ref;
+} svm_class_field_ref;
 
 typedef struct {
     uint16_t class_index;
     uint16_t name_and_type_index;
-} gvm_class_method_ref;
+} svm_class_method_ref;
 
 typedef struct {
     uint16_t class_index;
     uint16_t name_and_type_index;
-} gvm_class_interface_method_ref;
+} svm_class_interface_method_ref;
 
 typedef struct {
     uint16_t string_index;
-} gvm_class_string;
+} svm_class_string;
 
 typedef struct {
     uint32_t bytes;
-} gvm_class_int;
+} svm_class_int;
 
 typedef struct {
     uint32_t bytes;
-} gvm_class_float;
+} svm_class_float;
 
 typedef struct {
     uint32_t low;
     uint32_t high;
-} gvm_class_long;
+} svm_class_long;
 
 typedef struct {
     uint32_t low;
     uint32_t high;
-} gvm_class_double;
+} svm_class_double;
 
 typedef struct {
     uint16_t name_index;
     uint16_t descriptor_index;
-} gvm_class_name_and_type;
+} svm_class_name_and_type;
 
 typedef struct {
     uint16_t length;
     uint8_t* bytes;
-} gvm_class_utf8;
+} svm_class_utf8;
 
 typedef struct {
     uint8_t reference_kind;
     uint16_t reference_index;
-} gvm_class_method_handle;
+} svm_class_method_handle;
 
 typedef struct {
     uint16_t descriptor_index;
-} gvm_class_method_type;
+} svm_class_method_type;
 
 typedef struct {
     uint16_t bootstrap_method_attr_index;
     uint16_t name_and_type_index;
-} gvm_class_dynamic;
+} svm_class_dynamic;
 
 typedef struct {
     uint16_t bootstrap_method_attr_index;
     uint16_t name_and_type_index;
-} gvm_class_invoke_dynamic;
+} svm_class_invoke_dynamic;
 
 typedef struct {
     uint16_t name_index;
-} gvm_class_module;
+} svm_class_module;
 
 /** Gets the number of constants in the constant pool.
  * \param class The class to put the result into.
@@ -124,7 +124,7 @@ typedef struct {
  * \param offset The offset in which to look from.
  * \returns The number of bytes to jump forward by.
  */
-uint16_t gvm_class_get_constant_pool_count(gvm_class* class, unsigned char* src, size_t offset);
+uint16_t svm_class_get_constant_pool_count(svm_class* class, unsigned char* src, size_t offset);
 
 /** Gets all the constants in the constant pool.
  * \param class The class to put the result into.
@@ -132,7 +132,7 @@ uint16_t gvm_class_get_constant_pool_count(gvm_class* class, unsigned char* src,
  * \param offset The offset in which to look from.
  * \returns The number of bytes to jump forward by.
  */
-uint16_t gvm_class_get_constant_pool(gvm_class* class, unsigned char* src, size_t offset);
+uint16_t svm_class_get_constant_pool(svm_class* class, unsigned char* src, size_t offset);
 
 #endif /** SVM_CONSTANT_POOL_H */
 

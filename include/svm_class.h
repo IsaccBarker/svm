@@ -1,7 +1,7 @@
 #ifndef SVM_CLASS_H
 #define SVM_CLASS_H
 
-#include <gvm_class_meta.h>
+#include <svm_class_meta.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -9,11 +9,11 @@
 /** A representation of a class containing JVM bytecode.
  * In the specification, this is defined under the 4th chapter (4.0).
  * All of the members in this struct translate from/into a class file,
- * with the exception of \ref gvm_class.meta, which includes metadata
+ * with the exception of \ref svm_class.meta, which includes metadata
  * about the class, such as if it needs preview features. */
 typedef struct {
     /// Metadata (see parent comment).
-    gvm_class_meta meta;
+    svm_class_meta meta;
 
     /// The magic of the file. Should be 0xCAFEBABE.
     uint32_t magic;
@@ -23,7 +23,7 @@ typedef struct {
     uint16_t major_version;
     /// The number of constants in the constant pool.
     uint16_t constant_pool_count;
-} gvm_class;
+} svm_class;
 
 /** Parses a class file from it's source.
  * It's worth mentioning here that by source, we don't mean
@@ -34,19 +34,19 @@ typedef struct {
  * future.
  *
  * \param src The binary of the class file in question.
- * \param length The size of the class file, in bytes. Used to allocate appropriate memory for \ref gvm_class.
+ * \param length The size of the class file, in bytes. Used to allocate appropriate memory for \ref svm_class.
  * \returns A pointer to the class representation. Must be freed.
  */
-gvm_class* gvm_parse_class(unsigned char* src, size_t length);
+svm_class* svm_parse_class(unsigned char* src, size_t length);
 
 /** Dumps an overview of the class.
- * Here, we dump all of what the \ref gvm_class struct contains.
+ * Here, we dump all of what the \ref svm_class struct contains.
  * This is really only useful for debugging purposes, or if
  * you just want to look cool.
  *
  * \param class The parsed class file. If not initialized (parsed), the program will abort.
  * */
-void gvm_dump_class(gvm_class* class);
+void svm_dump_class(svm_class* class);
 
 #endif /* SVM_CLASS_H */
 

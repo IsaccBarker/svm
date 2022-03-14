@@ -11,7 +11,7 @@
 typedef struct {
     /// Whether we need preview features.
     uint8_t feature_preview;
-} gvm_class_meta;
+} svm_class_meta;
 
 #endif /* SVM_CLASS_META_H */
 
