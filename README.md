@@ -1,3 +1,6 @@
+[![Meson Build](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml)
+[![CodeQL](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml)
+
 # SVM: Simple (language) Virtual Machine
 
 # About
