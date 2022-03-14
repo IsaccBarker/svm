@@ -1,7 +1,7 @@
 #ifndef SVM_MAGIC_H
 #define SVM_MAGIC_H
 
-#include <svm_class.h>
+#include <gvm_class.h>
 
 #include <stdlib.h>
 
@@ -11,7 +11,7 @@
  * \param offset The offset in which to look from.
  * \returns The number of bytes to jump forward by.
  */
-int svm_class_get_magic(svm_class* class, unsigned char* src, size_t offset);
+int gvm_class_get_magic(gvm_class* class, unsigned char* src, size_t offset);
 
 #endif /* SVM_MAGIC_H */
 

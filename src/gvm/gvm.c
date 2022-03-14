@@ -4,18 +4,18 @@
 #include <string.h>
 #include <assert.h>
 
-#include <svm_class.h>
-#include <svm_const.h>
-#include <svm_log.h>
+#include <gvm_class.h>
+#include <gvm_const.h>
+#include <gvm_log.h>
 
 #include "./include/class_file.h"
 
 void invalid_command_argument(char* o, char* arg, char* hint) {
     if (hint == NULL) {
-        fprintf(stderr, "svm: malformed argument for option `%s`: %s\n", o, arg);
+        fprintf(stderr, "gvm: malformed argument for option `%s`: %s\n", o, arg);
     }
 
-    fprintf(stderr, "svm: malformed argument for option `%s`: %s (hint: %s)\n", o, arg, hint);
+    fprintf(stderr, "gvm: malformed argument for option `%s`: %s (hint: %s)\n", o, arg, hint);
 }
 
 void print_help_message() {
@@ -27,7 +27,7 @@ void print_help_message() {
             "\t--verbosity -v <integer>: Specify the verbosity level\n"
             "\t                              1-6, 0 = fatal, 1 = error... 6 = trace.\n"
             "\t                              Must be compiled with verbosity to specify.\n"
-            "Home page, report bugs to: https://github.com/IsaccBarker/svm\n");
+            "Home page, report bugs to: https://github.com/IsaccBarker/gvm\n");
 }
 
 void print_version_message() {
@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
 
     /* Print any remaining command line arguments (not options). */
     if (optind < argc) {
-        fprintf(stderr, "%s: unknown elements (svm does not use subcommands): ", SVM_NAME);
+        fprintf(stderr, "%s: unknown elements (gvm does not use subcommands): ", SVM_NAME);
         while (optind < argc)
             fprintf(stderr, "\n\t%s", argv[optind++]);
 
@@ -155,18 +155,18 @@ int main(int argc, char *argv[]) {
 
     log_trace("Parsing class representation (dumping when complete).");
 
-    svm_class* class = svm_parse_class(data, file_length);
+    gvm_class* class = gvm_parse_class(data, file_length);
 
     if (verbosity >= 5) {
-        svm_dump_class(class);
+        gvm_dump_class(class);
     }
 
     /* if (verbosity == 6) {
-        svm_display_class_hex(data, file_length);
+        gvm_display_class_hex(data, file_length);
     }
 
-    svm_class_representation* rep = svm_parse_class_file(file_length, data);
-    svm_print_class_overview(rep); */
+    gvm_class_representation* rep = gvm_parse_class_file(file_length, data);
+    gvm_print_class_overview(rep); */
 
     return EXIT_SUCCESS;
 }

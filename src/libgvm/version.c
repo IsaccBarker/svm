@@ -1,6 +1,6 @@
-#include <svm_version.h>
+#include <gvm_version.h>
 
-#include <svm_log.h>
+#include <gvm_log.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -8,19 +8,19 @@
 void impl_check_minor_status(uint16_t major, uint16_t minor);
 void impl_check_incompatable_bytecode_by_version(uint16_t major);
 
-uint16_t svm_class_get_major(svm_class* class, unsigned char* src, size_t offset) {
+uint16_t gvm_class_get_major(gvm_class* class, unsigned char* src, size_t offset) {
     class->major_version = (src[offset] << 8) + src[offset+1];
 
     return 2;
 }
 
-uint16_t svm_class_get_minor(svm_class* class, unsigned char* src, size_t offset) {
+uint16_t gvm_class_get_minor(gvm_class* class, unsigned char* src, size_t offset) {
     class->minor_version = (src[offset] << 8) + src[offset+1];
 
     return 2;
 }
 
-void svm_account_for_preview_features(svm_class* class) {
+void gvm_account_for_preview_features(gvm_class* class) {
     /* Specification: 4.1-A
      *  A class file is said to depend on the preview features of Java SE N (N ≥ 12) if
      *  it has a major_version that corresponds to Java SE N (according to Table 4.1-
@@ -78,12 +78,12 @@ void impl_check_incompatable_bytecode_by_version(uint16_t major_version) {
     }
 }
 
-void svm_verify_version_validity(svm_class* class) {
+void gvm_verify_version_validity(gvm_class* class) {
     impl_check_minor_status(class->major_version, class->minor_version);
     impl_check_incompatable_bytecode_by_version(class->major_version);
 }
 
-char* svm_get_human_java_version(svm_class* class) {
+char* gvm_get_human_java_version(gvm_class* class) {
     // Trivia ;) : https://stackoverflow.com/questions/58467204/why-do-java-class-file-versions-start-from-45
 
     switch (class->major_version) {

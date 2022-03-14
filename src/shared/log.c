@@ -22,7 +22,7 @@
 
 #ifndef SVM_NO_LOG
 
-#include <svm_log.h>
+#include <gvm_log.h>
 
 #define MAX_CALLBACKS 32
 

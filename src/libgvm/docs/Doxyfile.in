@@ -1,5 +1,5 @@
 # General information
-PROJECT_NAME          = libsvm
+PROJECT_NAME          = libgvm
 OUTPUT_DIRECTORY      = @DOXYGEN_OUTPUT@
 OUTPUT_LANGUAGE       = English
 TAB_SIZE              = 2
@@ -14,8 +14,8 @@ WARNINGS             = YES
 WARN_IF_UNDOCUMENTED = YES
 
 # Input files
-INPUT                  = @DOXYGEN_INPUT@ @DOXYGEN_PROJECT_ROOT@/src/libsvm/docs/README.md
-USE_MDFILE_AS_MAINPAGE = @DOXYGEN_PROJECT_ROOT@/src/libsvm/docs/README.md
+INPUT                  = @DOXYGEN_INPUT@ @DOXYGEN_PROJECT_ROOT@/src/libgvm/docs/README.md
+USE_MDFILE_AS_MAINPAGE = @DOXYGEN_PROJECT_ROOT@/src/libgvm/docs/README.md
 FILE_PATTERNS          = *.h
 RECURSIVE              = YES
 

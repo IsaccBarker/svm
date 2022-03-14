@@ -2,7 +2,7 @@
 #define SVM_CONST_H
 
 /// Program name.
-#define SVM_NAME "svm"
+#define SVM_NAME "gvm"
 /// Program version.
 #define SVM_VERSION "0.1"
 
