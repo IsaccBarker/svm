@@ -37,10 +37,8 @@ jobs:
         uses: actions/checkout@v2
 
       - run: |
-        sudo apt-get install protobuf-compiler
-        sudo apt-get install libsodium-dev
-        pip install meson ninja
-        meson setup builddir
-        export CC=gcc
-        meson build -C builddir/ -v 
-        ninja -C builddir 
+          pip install meson ninja
+          meson setup builddir
+          export CC=gcc
+          meson build -C builddir/ -v 
+          ninja -C builddir 
