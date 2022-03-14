@@ -1,6 +1,12 @@
 [![Meson Build](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml)
 [![CodeQL](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml)
 
+
+
+> <img src="https://media4.giphy.com/media/LZElUsjl1Bu6c/giphy.gif?cid=ecf05e474dzue7v5980rnrz669yo460hgq0dggb7ad0sqyqq&rid=giphy.gif&ct=g"></img>
+> 
+> **Jarrot** the Java Perrot. Our mascot ;)
+
 # SVM: Simple (language) Virtual Machine
 
 # About
