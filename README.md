@@ -18,6 +18,11 @@ Those flags may be used to further fine tune your experience (recommended for an
 <summary>Flags</summary>
 <br>
 <ol>
+<li><i>D</i>
+    <ol>
+    <li> <i>enable-docs</i> will, if set to true, build the doxygen documentation.</li>
+    </ol>
+</li>
 <li><i>buildtype</i>
     <ol>
     <li> <i>debug</i> is the default, which is not want you want if you are not developing or debugging.</li>
