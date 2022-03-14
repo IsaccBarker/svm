@@ -53,8 +53,6 @@ jobs:
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - run: |
-        sudo apt-get install protobuf-compiler
-        sudo apt-get install libsodium-dev
         pip install meson ninja
         meson setup builddir
         export CC=gcc
