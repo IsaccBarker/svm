@@ -1,13 +1,12 @@
-Simple.class: Simple.java
-	javac Simple.java
+JC=javac
+JFLAGS=
 
-FizzBuzz.class: FizzBuzz.java
-	javac FizzBuzz.java
+%.class: %.java
+	$(JC) $(FLAGS) $<
 
-Binary.class: Binary.java
-	javac Binary.java
+all: Binary.class Foo.class FizzBuzz.class Simple.class Hello.class
+	@# Done
 
-all: Simple.class FizzBuzz.class Binary.class
-	echo done
+clean:
+	rm -f Binary.class Foo.class FizzBuzz.class Simple.class Hello.class
 
-.PHONY: all

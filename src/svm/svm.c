@@ -4,8 +4,11 @@
 #include <string.h>
 #include <assert.h>
 
+#include <svm_class.h>
 #include <svm_const.h>
 #include <svm_log.h>
+
+#include "./include/class_file.h"
 
 void invalid_command_argument(char* o, char* arg, char* hint) {
     if (hint == NULL) {
@@ -145,13 +148,20 @@ int main(int argc, char *argv[]) {
     log_set_level(6-verbosity);
 
     // Horray!
-    /* log_trace("Reading class file.");
+    log_trace("Reading class file.");
     FILE* f = get_file_handle(class_file);
     size_t file_length = get_file_size(f);
     unsigned char* data = read_class_file(file_length, f);
 
     log_trace("Parsing class representation (dumping when complete).");
-    if (verbosity == 6) {
+
+    svm_class* class = svm_parse_class(data, file_length);
+
+    if (verbosity >= 5) {
+        svm_dump_class(class);
+    }
+
+    /* if (verbosity == 6) {
         svm_display_class_hex(data, file_length);
     }
 

@@ -16,7 +16,7 @@ WARN_IF_UNDOCUMENTED = YES
 # Input files
 INPUT                  = @DOXYGEN_INPUT@ @DOXYGEN_PROJECT_ROOT@/src/libsvm/docs/README.md
 USE_MDFILE_AS_MAINPAGE = @DOXYGEN_PROJECT_ROOT@/src/libsvm/docs/README.md
-FILE_PATTERNS          = *.h *.c
+FILE_PATTERNS          = *.h
 RECURSIVE              = YES
 
 # Output files
