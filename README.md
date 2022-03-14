@@ -5,10 +5,10 @@
 > 
 > **Garrot** the General Perrot. Our mascot ;)
 
-# SVM: Simple (language) Virtual Machine
+# GVM: General (language) Virtual Machine
 
 # About
-SVM aims to be a compact language virtual machine (compatable VM 17) for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
+GVM aims to be a compact language virtual machine (compatable VM 17) for you to embed within your application. Before using this, check out Lua or another language in that same vein, as they are actually ment to be embedded.
 
 Designed with Clojure in mind.
 
@@ -16,7 +16,7 @@ Designed with Clojure in mind.
 This project uses the [Oracle's Java SE 17 JVM Specification](https://docs.oracle.com/javase/specs/jvms/se17/jvms17.pdf) as reference.
 
 ## Building
-SVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library.
+GVM comes in a library and the binary. The binary is just a simple front end for the library. Any program that wishes may link against the library.
 Documentation is provided, but you should also look at the reference binary.
 
 ```bash
@@ -36,10 +36,10 @@ sudo ninja install
 ```
 
 ## Application development
-While SVM does provide documentation, it is recommended you suplement this with the reference binary.
+While GVM does provide documentation, it is recommended you suplement this with the reference binary.
 
 ## Platforms
-SVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C9<li> If not, please support an issue.
+GVM uses only C99 standard headers and platform independent code, so it should work wherever you might find a C compiler that supports C9<li> If not, please support an issue.
 
 ## Tested platforms
 
