@@ -55,9 +55,11 @@ void impl_check_minor_status(uint16_t major_version, uint16_t minor_version) {
         }
     }
 
-    log_fatal("Major version is outside of 45-55 (inclusive), and has a non 0 minor version (%d.%d).",
-            major_version, minor_version);
-    exit(EXIT_FAILURE);
+    if (minor_version != 0) {
+        log_fatal("Major version is outside of 45-55 (inclusive), and has a non 0 minor version (%d.%d).",
+                major_version, minor_version);
+        exit(EXIT_FAILURE);
+    }
 
 }
 

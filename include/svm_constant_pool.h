@@ -114,6 +114,10 @@ typedef struct {
     uint16_t name_and_type_index;
 } svm_class_invoke_dynamic;
 
+typedef struct {
+    uint16_t name_index;
+} svm_class_module;
+
 /** Gets the number of constants in the constant pool.
  * \param class The class to put the result into.
  * \param src The source of the class binary.
