@@ -153,6 +153,12 @@ int main(int argc, char *argv[]) {
     size_t file_length = get_file_size(f);
     unsigned char* data = read_class_file(file_length, f);
 
+    log_trace("Displaying raw hexidecimal.");
+
+    if (verbosity >= 5) {
+        svm_display_class_hex(data, file_length);
+    }
+
     log_trace("Parsing class representation (dumping when complete).");
 
     svm_class* class = svm_parse_class(data, file_length);

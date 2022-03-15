@@ -1,10 +1,13 @@
 #ifndef SVM_CONSTANT_POOL_H
 #define SVM_CONSTANT_POOL_H
 
+typedef struct svm_class_cp_info svm_class_cp_info;
+
 #include <svm_class.h>
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #define SVM_CONSTANT_TAG_UTF8 1
 #define SVM_CONSTANT_TAG_INTEGER 3
@@ -38,11 +41,16 @@
  * mentions an array of type uint8_t, which is not mentioned
  * here. Instead, we have a pointer to a structure that
  * better holds the individual properties required by each
- * tag. */
-typedef struct {
+ * tag.
+ * The ones without a fixed size (e.g. the ones containing
+ * a pointer to an array) don't nessisarly map 1 to 1. An
+ * example of this is the UTF8 constant; the specification
+ * defines it as having a size baked in, but we just use
+ * a null terminator and disregard the size. */
+struct svm_class_cp_info {
     uint8_t tag;
     void* further;
-} svm_class_cp_info;
+};
 
 typedef struct {
     uint16_t name_index;
@@ -91,7 +99,6 @@ typedef struct {
 } svm_class_name_and_type;
 
 typedef struct {
-    uint16_t length;
     uint8_t* bytes;
 } svm_class_utf8;
 
@@ -118,6 +125,39 @@ typedef struct {
     uint16_t name_index;
 } svm_class_module;
 
+typedef struct {
+    uint16_t name_index;
+} svm_class_package;
+
+#define SVM_CONSTANT_TAG_SIZE_UTF8 sizeof(svm_class_utf8)
+#define SVM_CONSTANT_TAG_SIZE_INTEGER sizeof(svm_class_int)
+#define SVM_CONSTANT_TAG_SIZE_FLOAT sizeof(svm_class_float)
+#define SVM_CONSTANT_TAG_SIZE_LONG sizeof(svm_class_long)
+#define SVM_CONSTANT_TAG_SIZE_DOUBLE sizeof(svm_class_double)
+#define SVM_CONSTANT_TAG_SIZE_CLASS sizeof(svm_class_class)
+#define SVM_CONSTANT_TAG_SIZE_STRING sizeof(svm_class_string)
+#define SVM_CONSTANT_TAG_SIZE_FIELD_REF sizeof(svm_class_field_ref)
+#define SVM_CONSTANT_TAG_SIZE_METHOD_REF sizeof(svm_class_method_ref)
+#define SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF sizeof(svm_class_interface_method_ref)
+#define SVM_CONSTANT_TAG_SIZE_NAME_AND_TYPE sizeof(svm_class_name_and_type)
+#define SVM_CONSTANT_TAG_SIZE_METHOD_HANDLE sizeof(svm_class_method_handle)
+#define SVM_CONSTANT_TAG_SIZE_METHOD_TYPE sizeof(svm_class_method_type)
+#define SVM_CONSTANT_TAG_SIZE_INVOKE_DYNAMIC sizeof(svm_class_invoke_dynamic)
+
+/** Get the size that the "payload" (info member)
+ * is, in bytes. This will return the max on types that
+ * do not have a fixed size, such as \ref svm_class_utf8.
+ * \param tag The tag to get the corasponding info's size of.
+ * \returns The size, in bytes. */
+size_t svm_class_tag_constant_to_size(uint8_t tag);
+
+/** Gets a constant tag as a string. Useful for debugging,
+ * but not much else.
+ * \param The tag to get as a string.
+ * \returns The string that the tag is.
+ */
+char* svm_constant_tag_as_string(uint8_t tag);
+
 /** Gets the number of constants in the constant pool.
  * \param class The class to put the result into.
  * \param src The source of the class binary.
@@ -133,6 +173,25 @@ uint16_t svm_class_get_constant_pool_count(svm_class* class, unsigned char* src,
  * \returns The number of bytes to jump forward by.
  */
 uint16_t svm_class_get_constant_pool(svm_class* class, unsigned char* src, size_t offset);
+
+/** Gets the next constant in the constant pool. By
+ * next, we really mean the constant starting at
+ * \ref offset.
+ * \param info The struct to write the results into.
+ * \param src The source of the class binary.
+ * \param offset The offset in which to look from.
+ * \returns How many bytes to jump forward after reading.
+ */
+size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char* src, size_t offset);
+
+/** Like \ref svm_class_get_next_constant_entry, but calculates
+ * for the non-fixed size UTF8 constant. This is really just called
+ * from \ref svm_class_get_next_constant_entry.
+ * \param info The struct to write the results into.
+ * \param src The source of the class binary.
+ * \param offset The offset in which to look from.
+ * \returns How many bytes to jump forward after reading. */
+size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned char* src, size_t offset);
 
 #endif /** SVM_CONSTANT_POOL_H */
 
