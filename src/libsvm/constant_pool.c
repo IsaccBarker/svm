@@ -91,16 +91,8 @@ uint16_t svm_class_get_constant_pool_count(svm_class* class, unsigned char* src,
 }
 
 uint16_t svm_class_get_constant_pool(svm_class* class, unsigned char* src, size_t offset) {
-    for (size_t constant_index = 0; constant_index < class->constant_pool_count; constant_index++) {
-        // TODO: FUTURE ME
-        // Disregard the past message in the previous commit.
-        // we have to implement the size of the different types,
-        // beacuse currently it just reads 32 bits and gives up.
-        // Some need more, some need less!
-
-        printf("b: %zu\n", offset);
+    for (size_t constant_index = 0; constant_index < class->constant_pool_count-1; constant_index++) {
         offset += svm_class_get_next_constant_entry(&class->constant_pool[constant_index], src, offset);
-        printf("a: %zu\n", offset);
     }
 
     return 0;
@@ -108,7 +100,6 @@ uint16_t svm_class_get_constant_pool(svm_class* class, unsigned char* src, size_
 
 size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char* src, size_t offset) {
     uint8_t tag = src[offset];
-    printf("\tfound %s\n", svm_constant_tag_as_string(tag));
     size_t info_size = svm_class_tag_constant_to_size(tag);
     size_t track_offset = 0;
 
@@ -131,8 +122,6 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
 
         track_offset += info_size;
 
-        printf("\tit was %zu bytes long\n", info_size);
-
         info->tag = tag;
         info->further = info_bytes;
     } else {
@@ -141,9 +130,7 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
         // that parsing function if we finc one.
         // TODO: Use track offset
         if (tag == SVM_CONSTANT_TAG_UTF8) {
-            printf("-- %d\n", track_offset);
             track_offset += svm_class_get_next_constant_entry_utf8(info, src, offset);
-            printf("-- %d\n", track_offset);
         } else {
             log_fatal("Unknown non-fixed size constant table tag.");
 
@@ -165,16 +152,12 @@ size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned 
     size_t track_offset = length;
     char* str = malloc(length * sizeof(uint8_t));
 
-    printf("DIGIT: %d\n", length);
-
     offset += 2;
 
     // Loop over the characters until we get the entire string
     // loaded in.
     for (int i = 0; i < length; i++) {
         str[i] = src[offset];
-
-        printf("\t-- %d: %c\n", i, str[i]);
 
         offset += 1;
     }
@@ -184,7 +167,6 @@ size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned 
     // TODO: What the actual fuck does this do.
     track_offset += 2;
 
-    printf("TO: %d\n", track_offset);
     return track_offset;
 }
 
