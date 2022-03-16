@@ -1,7 +1,10 @@
 #ifndef SVM_CLASS_H
 #define SVM_CLASS_H
 
+typedef struct svm_class svm_class;
+
 #include <svm_class_meta.h>
+#include <svm_constant_pool.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -11,7 +14,7 @@
  * All of the members in this struct translate from/into a class file,
  * with the exception of \ref svm_class.meta, which includes metadata
  * about the class, such as if it needs preview features. */
-typedef struct {
+struct svm_class {
     /// Metadata (see parent comment).
     svm_class_meta meta;
 
@@ -23,7 +26,9 @@ typedef struct {
     uint16_t major_version;
     /// The number of constants in the constant pool.
     uint16_t constant_pool_count;
-} svm_class;
+    /// The constant pool.
+    svm_class_cp_info* constant_pool;
+};
 
 /** Parses a class file from it's source.
  * It's worth mentioning here that by source, we don't mean
@@ -38,6 +43,13 @@ typedef struct {
  * \returns A pointer to the class representation. Must be freed.
  */
 svm_class* svm_parse_class(unsigned char* src, size_t length);
+
+/** Dump the raw hexidecimal representation of the class. Useful
+ * for debugging, and not much else.
+ * \param src The binary of the class file in question.
+ * \param length The size of the class file, in bytes.
+ */
+void svm_display_class_hex(unsigned char* src, size_t length);
 
 /** Dumps an overview of the class.
  * Here, we dump all of what the \ref svm_class struct contains.
