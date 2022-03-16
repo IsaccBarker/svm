@@ -158,6 +158,11 @@ size_t svm_class_tag_constant_to_size(uint8_t tag);
  */
 char* svm_constant_tag_as_string(uint8_t tag);
 
+/** Pretty prints the constant pool entry supplied.
+ * \param info The struct to read from.
+ */
+void svm_class_print_constant_entry(svm_class_cp_info* info);
+
 /** Gets the number of constants in the constant pool.
  * \param class The class to put the result into.
  * \param src The source of the class binary.

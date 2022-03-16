@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <assert.h>
 #include <limits.h>
+#include <string.h>
+#include <errno.h>
 
 #include <svm_log.h>
 
@@ -84,6 +86,91 @@ char* svm_constant_tag_as_string(uint8_t tag) {
     }
 }
 
+void svm_class_print_constant_entry(svm_class_cp_info* info) {
+    uint8_t tag = info->tag;
+
+    switch (tag) {
+        case SVM_CONSTANT_TAG_CLASS: {
+            svm_class_class* typed_info = info->further;
+            log_trace("-- Name index : %04X (%d)", typed_info->name_index, typed_info->name_index);
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_FIELD_REF: {
+            svm_class_field_ref* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_METHOD_REF: {
+            svm_class_method_ref* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_INTERFACE_METHOD_REF: {
+            svm_class_interface_method_ref* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_STRING: {
+            svm_class_string* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_INTEGER: {
+            svm_class_int* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_FLOAT: {
+            svm_class_float* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_LONG: {
+            // Fuck. You. Mr. Long.
+            svm_class_long* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_DOUBLE: {
+            svm_class_double* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_NAME_AND_TYPE: {
+            svm_class_name_and_type* typed_info = info->further;
+            break;
+        }
+        case SVM_CONSTANT_TAG_UTF8: {
+            svm_class_utf8* typed_info = info->further;
+
+            log_trace("-- String : %s", typed_info->bytes);
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_METHOD_HANDLE: {
+            svm_class_method_handle* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_METHOD_TYPE: {
+            svm_class_method_type* typed_info = info->further;
+
+            break;
+        }
+        case SVM_CONSTANT_TAG_INVOKE_DYNAMIC: {
+            svm_class_invoke_dynamic* typed_info = info->further;
+
+            break;
+        }
+        default: {
+            log_fatal("Unknown constant pool tag (%d, 0x%02X).", tag, tag);
+
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
 uint16_t svm_class_get_constant_pool_count(svm_class* class, unsigned char* src, size_t offset) {
     class->constant_pool_count = (src[offset] << 8) + src[offset+1];
 
@@ -110,15 +197,26 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
     // due to a fixed size.
     if (info_size != CHAR_MAX) {
         // Yes we can!
+        size_t info_bytes_length = info_size * sizeof(uint8_t);
+        uint8_t* info_bytes = malloc(info_bytes_length);
 
-        uint8_t* info_bytes = malloc(info_size * sizeof(uint8_t));
+        if (info_bytes == NULL) {
+            log_fatal("Failed to allocate memory for fixed size constant table entry (%d): %s",
+                    strerror(errno), info_bytes_length);
+
+            exit(EXIT_FAILURE);
+        }
 
         // Loop over the bytes, and do some fancy
         // bit shifting to populate the info struct
         // (whatever it might be).
-        for (size_t i = 0; i < info_size; i++) {
+        /* for (size_t i = 0; i < info_size; i++) {
             info_bytes[i] += (src[offset+i] << i*3);
-        }
+        } */
+
+        printf("hey!\n");
+        memcpy(info_bytes, &src[offset], info_size);
+        printf("bae!\n");
 
         track_offset += info_size;
 
@@ -150,7 +248,13 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
 size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned char* src, size_t offset) {
     uint16_t length = (src[offset] << 8) + src[offset+1];
     size_t track_offset = length;
-    char* str = malloc(length * sizeof(uint8_t));
+    uint8_t* str = malloc(length * sizeof(uint8_t) + 1);
+    svm_class_utf8* typed_info = malloc(SVM_CONSTANT_TAG_SIZE_UTF8);
+
+    if (typed_info == NULL) {
+        log_fatal("Failed to allocatae memory for UTF8 typed info (%d): %s",
+                SVM_CONSTANT_TAG_SIZE_UTF8, strerror(errno));
+    }
 
     offset += 2;
 
@@ -162,7 +266,12 @@ size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned 
         offset += 1;
     }
 
-    info->further = info;
+    str[length] = '\0';
+
+    typed_info->bytes = str;
+
+    info->further = typed_info;
+    info->tag = SVM_CONSTANT_TAG_UTF8;
 
     // TODO: What the actual fuck does this do.
     track_offset += 2;

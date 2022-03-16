@@ -69,11 +69,19 @@ void svm_dump_class(svm_class* class) {
     assert(class != NULL);
 
     log_debug("Meta: ");
-    log_debug("\tPreview Features: %d", class->meta.feature_preview);
-    log_debug("Magic               : 0x%08X", class->magic);
-    log_debug("Major Version       : %d (0x%04X)", class->major_version, class->major_version);
-    log_debug("Minor Version       : %d (0x%04X)", class->minor_version, class->minor_version);
-    log_debug("Human Version       : %s", svm_get_human_java_version(class));
+    log_debug("\tPreview Features : %d", class->meta.feature_preview);
+    log_debug("Magic : 0x%08X", class->magic);
+    log_debug("Major Version : %d (0x%04X)", class->major_version, class->major_version);
+    log_debug("Minor Version : %d (0x%04X)", class->minor_version, class->minor_version);
+    log_debug("Human Version : %s", svm_get_human_java_version(class));
     log_debug("Constant Pool Count : %d (0x%04X)", class->constant_pool_count);
+    log_trace("Constant Pool Entiries :");
+
+    for (int i = 0; i < class->constant_pool_count-1; i++) {
+        uint8_t tag = class->constant_pool[i].tag;
+
+        log_trace("\t%d. %s", i+1, svm_constant_tag_as_string(tag));
+        svm_class_print_constant_entry(&class->constant_pool[i]);
+    }
 }
 
