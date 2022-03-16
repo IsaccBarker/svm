@@ -141,7 +141,9 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
         // that parsing function if we finc one.
         // TODO: Use track offset
         if (tag == SVM_CONSTANT_TAG_UTF8) {
-            offset += svm_class_get_next_constant_entry_utf8(info, src, offset);
+            printf("-- %d\n", track_offset);
+            track_offset += svm_class_get_next_constant_entry_utf8(info, src, offset);
+            printf("-- %d\n", track_offset);
         } else {
             log_fatal("Unknown non-fixed size constant table tag.");
 
@@ -160,7 +162,10 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
 
 size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned char* src, size_t offset) {
     uint16_t length = (src[offset] << 8) + src[offset+1];
+    size_t track_offset = length;
     char* str = malloc(length * sizeof(uint8_t));
+
+    printf("DIGIT: %d\n", length);
 
     offset += 2;
 
@@ -169,11 +174,17 @@ size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned 
     for (int i = 0; i < length; i++) {
         str[i] = src[offset];
 
+        printf("\t-- %d: %c\n", i, str[i]);
+
         offset += 1;
     }
 
     info->further = info;
 
-    return length;
+    // TODO: What the actual fuck does this do.
+    track_offset += 2;
+
+    printf("TO: %d\n", track_offset);
+    return track_offset;
 }
 
