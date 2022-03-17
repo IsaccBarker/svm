@@ -86,6 +86,63 @@ char* svm_constant_tag_as_string(uint8_t tag) {
     }
 }
 
+void scm_class_create_fixed_constant_entry(svm_class_cp_info* info, unsigned char* src, size_t offset) {
+    switch (tag) {
+        case SVM_CONSTANT_TAG_CLASS: {
+            svm_class_class* further = malloc(SVM_CONSTANT_TAG_SIZE_CLASS);
+            break;
+        }
+        case SVM_CONSTANT_TAG_FIELD_REF: {
+            svm_class_field_ref* further = malloc(SVM_CONSTANT_TAG_SIZE_FIELD_REF);
+            break;
+        }
+        case SVM_CONSTANT_TAG_METHOD_REF: {
+            svm_class_field_ref* further = malloc(SVM_CONSTANT_TAG_SIZE_METHOD_REF);
+            break;
+        }
+        case SVM_CONSTANT_TAG_INTERFACE_METHOD_REF: {
+            svm_class_field_ref* further = malloc(SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF);
+            break;
+        }
+        case SVM_CONSTANT_TAG_STRING: {
+            svm_class_string* further = malloc(SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF);
+            break;
+        }
+        case SVM_CONSTANT_TAG_INTEGER: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_FLOAT: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_LONG: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_DOUBLE: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_NAME_AND_TYPE: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_UTF8: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_METHOD_HANDLE: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_METHOD_TYPE: {
+            break;
+        }
+        case SVM_CONSTANT_TAG_INVOKE_DYNAMIC: {
+            break;
+        }
+        default:
+            log_fatal("Unknown constant pool tag (%d, 0x%02X).", tag, tag);
+
+            exit(EXIT_FAILURE);
+    }
+
+}
+
 void svm_class_print_constant_entry(svm_class_cp_info* info) {
     uint8_t tag = info->tag;
 
@@ -198,7 +255,7 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
     if (info_size != CHAR_MAX) {
         // Yes we can!
         size_t info_bytes_length = info_size * sizeof(uint8_t);
-        uint8_t* info_bytes = malloc(info_bytes_length);
+        void* further = malloc(info_bytes_length);
 
         if (info_bytes == NULL) {
             log_fatal("Failed to allocate memory for fixed size constant table entry (%d): %s",
@@ -210,18 +267,12 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
         // Loop over the bytes, and do some fancy
         // bit shifting to populate the info struct
         // (whatever it might be).
-        /* for (size_t i = 0; i < info_size; i++) {
-            info_bytes[i] += (src[offset+i] << i*3);
-        } */
-
-        printf("hey!\n");
-        memcpy(info_bytes, &src[offset], info_size);
-        printf("bae!\n");
+        svm_class_
 
         track_offset += info_size;
 
         info->tag = tag;
-        info->further = info_bytes;
+        info->further = further;
     } else {
         // No, we can't. Chances are this is a UTF8 string
         // Thus, we check for a UTF8 string, and spin off

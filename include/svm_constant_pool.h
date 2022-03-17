@@ -153,13 +153,21 @@ size_t svm_class_tag_constant_to_size(uint8_t tag);
 
 /** Gets a constant tag as a string. Useful for debugging,
  * but not much else.
- * \param The tag to get as a string.
+ * \param tag The tag to get as a string.
  * \returns The string that the tag is.
  */
 char* svm_constant_tag_as_string(uint8_t tag);
 
+/** Initialized \ref info with the correct values, reading
+ * from \ref src from offset \ref offset.
+ * \param info The struct to write the result to.
+ * \param src 
+void scm_class_create_fixed_constant_entry(svm_class_cp_info* info, unsigned char* src, size_t offset) 
+
 /** Pretty prints the constant pool entry supplied.
  * \param info The struct to read from.
+ * \param src The source of the class binary.
+ * \param offset The offset in which to look from.
  */
 void svm_class_print_constant_entry(svm_class_cp_info* info);
 
