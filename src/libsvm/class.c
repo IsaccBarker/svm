@@ -81,7 +81,7 @@ void svm_dump_class(svm_class* class) {
         uint8_t tag = class->constant_pool[i].tag;
 
         log_trace("\t%d. %s", i+1, svm_constant_tag_as_string(tag));
-        svm_class_print_constant_entry(&class->constant_pool[i]);
+        svm_class_print_constant_entry(tag, class->constant_pool[i].further, class->constant_pool);
     }
 }
 
