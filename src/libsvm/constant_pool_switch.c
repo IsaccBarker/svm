@@ -39,8 +39,6 @@ size_t svm_class_tag_constant_to_size(uint8_t tag) {
             return SVM_CONSTANT_TAG_SIZE_METHOD_HANDLE;
         case SVM_CONSTANT_TAG_METHOD_TYPE:
             return SVM_CONSTANT_TAG_SIZE_METHOD_TYPE;
-        case SVM_CONSTANT_TAG_INVOKE_DYNAMIC:
-            return SVM_CONSTANT_TAG_SIZE_INVOKE_DYNAMIC;
         default:
             // log_fatal("Unknown constant type when getting tag info length (%d, %04X).", tag, tag);
             log_fatal("Unknown constant pool tag (%d, 0x%02X).", tag, tag);
@@ -90,91 +88,91 @@ char* svm_constant_tag_as_string(uint8_t tag) {
     }
 }
 
-// TODO: VERY MUCH optimize for DRY.
+// TODO: Optimize for DRY.
 uint16_t svm_class_create_fixed_constant_entry(void* further, uint8_t tag, unsigned char* src, size_t offset) {
     switch (tag) {
         case SVM_CONSTANT_TAG_CLASS:
-            ((svm_class_class*)further)->name_index =
+            ((svm_class_constant_scheme_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
             return 2;
         case SVM_CONSTANT_TAG_FIELD_REF:
-            ((svm_class_field_ref*)further)->class_index =
+            ((svm_class_constant_scheme_16_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
-            ((svm_class_field_ref*)further)->name_and_type_index =
+            ((svm_class_constant_scheme_16_16*)further)->b =
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_METHOD_REF:
-            ((svm_class_field_ref*)further)->class_index =
+            ((svm_class_constant_scheme_16_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
-            ((svm_class_field_ref*)further)->name_and_type_index =
+            ((svm_class_constant_scheme_16_16*)further)->b =
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_INTERFACE_METHOD_REF:
-            ((svm_class_field_ref*)further)->class_index =
+            ((svm_class_constant_scheme_16_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
-            ((svm_class_field_ref*)further)->name_and_type_index =
+            ((svm_class_constant_scheme_16_16*)further)->b =
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_STRING:
-            ((svm_class_string*)further)->string_index =
+            ((svm_class_constant_scheme_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
             return 2;
         case SVM_CONSTANT_TAG_INTEGER:
-            ((svm_class_int*)further)->bytes =
+            ((svm_class_constant_scheme_32*)further)->a =
                 (src[offset] << 24) + (src[offset+1] << 16) +
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_FLOAT:
-            ((svm_class_float*)further)->bytes =
+            ((svm_class_constant_scheme_32*)further)->a =
                 (src[offset] << 24) + (src[offset+1] << 16) +
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_LONG:
-            ((svm_class_long*)further)->low =
+            ((svm_class_constant_scheme_32_32*)further)->a =
                 (src[offset] << 24) + (src[offset+1] << 16) +
                 (src[offset+2] << 8) + src[offset+3];
 
-            ((svm_class_long*)further)->high =
+            ((svm_class_constant_scheme_32_32*)further)->b =
                 (src[offset+4] << 24) + (src[offset+5] << 16) +
                 (src[offset+6] << 8) + src[offset+7];
             return 8;
         case SVM_CONSTANT_TAG_DOUBLE:
-            ((svm_class_double*)further)->low =
+            ((svm_class_constant_scheme_32_32*)further)->a =
                 (src[offset] << 24) + (src[offset+1] << 16) +
                 (src[offset+2] << 8) + src[offset+3];
 
-            ((svm_class_double*)further)->high =
+            ((svm_class_constant_scheme_32_32*)further)->b =
                 (src[offset+4] << 24) + (src[offset+5] << 16) +
                 (src[offset+6] << 8) + src[offset+7];
             return 8;
         case SVM_CONSTANT_TAG_NAME_AND_TYPE:
-            ((svm_class_name_and_type*)further)->name_index =
+            ((svm_class_constant_scheme_16_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
-            ((svm_class_name_and_type*)further)->descriptor_index =
+            ((svm_class_constant_scheme_16_16*)further)->b =
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_METHOD_HANDLE:
-            ((svm_class_method_handle*)further)->reference_kind =
+            ((svm_class_constant_scheme_8_16*)further)->a =
                 src[offset];
-            ((svm_class_method_handle*)further)->reference_index =
+            ((svm_class_constant_scheme_8_16*)further)->b =
                 (src[offset+1] << 8) + src[offset+2];
             return 3;
         case SVM_CONSTANT_TAG_METHOD_TYPE:
-            ((svm_class_method_type*)further)->descriptor_index =
+            ((svm_class_constant_scheme_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
             return 2;
         case SVM_CONSTANT_TAG_INVOKE_DYNAMIC:
-            ((svm_class_invoke_dynamic*)further)->bootstrap_method_attr_index =
+            ((svm_class_constant_scheme_16_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
-            ((svm_class_invoke_dynamic*)further)->name_and_type_index =
+            ((svm_class_constant_scheme_16_16*)further)->b =
                 (src[offset+2] << 8) + src[offset+3];
             return 4;
         case SVM_CONSTANT_TAG_CLASS_MODULE:
-            ((svm_class_class_module*)further)->name_index =
+            ((svm_class_constant_scheme_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
             return 2;
         case SVM_CONSTANT_TAG_CLASS_PACKAGE:
-            ((svm_class_class_package*)further)->name_index =
+            ((svm_class_constant_scheme_16*)further)->a =
                 (src[offset] << 8) + src[offset+1];
             return 2;
         default:
@@ -188,125 +186,128 @@ uint16_t svm_class_create_fixed_constant_entry(void* further, uint8_t tag, unsig
 }
 
 void svm_class_print_constant_entry(uint16_t tag, void* further, svm_class_cp_info* pool) {
+    // We may want to use this at some point to recursively
+    // figure out all the available information for a
+    // constant entry.
+    (void)pool;
+
     switch (tag) {
         case SVM_CONSTANT_TAG_CLASS: {
-            svm_class_class* typed_info = further;
+            svm_class_constant_scheme_16* typed_info = further;
 
             log_trace("-- Name index : %04X (%d)",
-                    typed_info->name_index, typed_info->name_index);
+                    typed_info->a, typed_info->a);
 
             break;
         }
         case SVM_CONSTANT_TAG_FIELD_REF: {
-            svm_class_field_ref* typed_info = further;
+            svm_class_constant_scheme_16_16* typed_info = further;
 
             log_trace("-- Class Index : %04X (%d)",
-                    typed_info->class_index, typed_info->class_index);
+                    typed_info->a, typed_info->a);
             log_trace("-- Name & Type Index : %04X (%d)",
-                    typed_info->name_and_type_index, typed_info->name_and_type_index);
+                    typed_info->b, typed_info->b);
 
             break;
         }
         case SVM_CONSTANT_TAG_METHOD_REF: {
-            svm_class_method_ref* typed_info = further;
+            svm_class_constant_scheme_16_16* typed_info = further;
 
             log_trace("-- Class Index : %04X (%d)",
-                    typed_info->class_index, typed_info->class_index);
+                    typed_info->a, typed_info->a);
             log_trace("-- Name & Type Index : %04X (%d)",
-                    typed_info->name_and_type_index, typed_info->name_and_type_index);
+                    typed_info->b, typed_info->b);
 
             break;
         }
         case SVM_CONSTANT_TAG_INTERFACE_METHOD_REF: {
-            svm_class_interface_method_ref* typed_info = further;
+            svm_class_constant_scheme_16_16* typed_info = further;
 
             log_trace("-- Class Index : %04X (%d)",
-                    typed_info->class_index, typed_info->class_index);
+                    typed_info->a, typed_info->a);
             log_trace("-- Name & Type Index : %04X (%d)",
-                    typed_info->name_and_type_index, typed_info->name_and_type_index);
+                    typed_info->b, typed_info->b);
 
             break;
         }
         case SVM_CONSTANT_TAG_STRING: {
-            svm_class_string* typed_info = further;
+            svm_class_constant_scheme_16* typed_info = further;
 
             log_trace("-- UTF8 Index : %04X (%d)",
-                    typed_info->string_index, typed_info->string_index);
+                    typed_info->a, typed_info->a);
 
             break;
         }
         case SVM_CONSTANT_TAG_INTEGER: {
-            svm_class_int* typed_info = further;
+            svm_class_constant_scheme_32* typed_info = further;
 
-            log_trace("-- Bytes : %08X", typed_info->bytes);
+            log_trace("-- Bytes : %08X", typed_info->a);
 
             break;
         }
         case SVM_CONSTANT_TAG_FLOAT: {
-            svm_class_float* typed_info = further;
+            svm_class_constant_scheme_32* typed_info = further;
 
-            log_trace("-- Bytes : %08X", typed_info->bytes);
+            log_trace("-- Bytes : %08X", typed_info->a);
 
             break;
         }
         case SVM_CONSTANT_TAG_LONG: {
             // Fuck. You. Mr. Long.
-            svm_class_long* typed_info = further;
+            svm_class_constant_scheme_32_32* typed_info = further;
 
-            log_trace("-- Low : %08X", typed_info->low);
-            log_trace("-- High : %08X", typed_info->high);
+            log_trace("-- Low : %08X", typed_info->a);
+            log_trace("-- High : %08X", typed_info->b);
 
             break;
         }
         case SVM_CONSTANT_TAG_DOUBLE: {
-            svm_class_double* typed_info = further;
+            svm_class_constant_scheme_32_32* typed_info = further;
 
-            log_trace("-- Low : %08X", typed_info->low);
-            log_trace("-- High : %08X", typed_info->high);
+            log_trace("-- Low : %08X", typed_info->a);
+            log_trace("-- High : %08X", typed_info->b);
 
             break;
         }
         case SVM_CONSTANT_TAG_NAME_AND_TYPE: {
-            svm_class_name_and_type* typed_info = further;
+            svm_class_constant_scheme_16_16* typed_info = further;
 
-            log_trace("-- Name Index : %d", typed_info->name_index);
-            log_trace("-- Descriptor Index : %d", typed_info->descriptor_index);
+            log_trace("-- Name Index : %d", typed_info->a);
+            log_trace("-- Descriptor Index : %d", typed_info->b);
 
             break;
         }
         case SVM_CONSTANT_TAG_UTF8: {
-            svm_class_utf8* typed_info = further;
+            svm_class_constant_scheme_8ptr* typed_info = further;
 
-            log_trace("-- String : %s", typed_info->bytes);
+            log_trace("-- String : %s", typed_info->a);
 
             break;
         }
         case SVM_CONSTANT_TAG_METHOD_HANDLE: {
-            svm_class_method_handle* typed_info = further;
-
             // TODO
 
             break;
         }
         case SVM_CONSTANT_TAG_METHOD_TYPE: {
-            svm_class_method_type* typed_info = further;
+            svm_class_constant_scheme_16* typed_info = further;
 
-            log_trace("-- Descriptor Index : %d", typed_info->descriptor_index);
+            log_trace("-- Descriptor Index : %d", typed_info->a);
 
             break;
         }
         case SVM_CONSTANT_TAG_CLASS_MODULE: {
-            svm_class_class_module* typed_info = further;
+            svm_class_constant_scheme_16* typed_info = further;
 
-            log_trace("-- Name Index : %d", typed_info->name_index);
+            log_trace("-- Name Index : %d", typed_info->a);
 
             break;
 
         }
         case SVM_CONSTANT_TAG_CLASS_PACKAGE: {
-            svm_class_class_package* typed_info = further;
+            svm_class_constant_scheme_16* typed_info = further;
 
-            log_trace("-- Name Index : %d", typed_info->name_index);
+            log_trace("-- Name Index : %d", typed_info->a);
 
         }
         default: {
