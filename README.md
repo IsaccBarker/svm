@@ -1,7 +1,7 @@
-[![Meson Build (Linux)](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson-linux.yml)
-[![Meson Build (MacOS)](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson-macos.yml)
-[![Meson Build (Windows)](https://github.com/IsaccBarker/svm/actions/workflows/meson.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson-windows.yml)
-![CodeQL](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml)
+[![Meson Build (Linux)](https://github.com/IsaccBarker/svm/actions/workflows/meson-linux.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson-linux.yml)
+[![Meson Build (MacOS)](https://github.com/IsaccBarker/svm/actions/workflows/meson-macos.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson-macos.yml)
+[![Meson Build (Windows)](https://github.com/IsaccBarker/svm/actions/workflows/meson-windows.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/meson-windows.yml)
+[![CodeQL](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml/badge.svg)](https://github.com/IsaccBarker/svm/actions/workflows/codeql.yml)
 
 > <img src="https://media4.giphy.com/media/LZElUsjl1Bu6c/giphy.gif?cid=ecf05e474dzue7v5980rnrz669yo460hgq0dggb7ad0sqyqq&rid=giphy.gif&ct=g"></img>
 > 
