@@ -11,7 +11,7 @@
 #ifndef SVM_NO_LOG
 
 /// Trace log info.
-#define log_trace(...) log_log(LOG_TRACE, __FILE__, __LINE__, __VA_ARGS__)
+#define log_trace(...) log_log(LOG_TRACE, "(Omit)", __LINE__, __VA_ARGS__)
 /// Debug log info.
 #define log_debug(...) log_log(LOG_DEBUG, __FILE__, __LINE__, __VA_ARGS__)
 /// Info log info.
