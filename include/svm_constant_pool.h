@@ -37,20 +37,19 @@ typedef struct svm_class_cp_info svm_class_cp_info;
 #define SVM_METHOD_HANDLE_KIND_NEW_INVOKE_SPECIAL 8
 #define SVM_METHOD_HANDLE_KIND_INVOKE_INTERFACE 9
 
-#define SVM_CONSTANT_TAG_SIZE_UTF8 sizeof(svm_class_utf8)
-#define SVM_CONSTANT_TAG_SIZE_INTEGER sizeof(svm_class_int)
-#define SVM_CONSTANT_TAG_SIZE_FLOAT sizeof(svm_class_float)
-#define SVM_CONSTANT_TAG_SIZE_LONG sizeof(svm_class_long)
-#define SVM_CONSTANT_TAG_SIZE_DOUBLE sizeof(svm_class_double)
-#define SVM_CONSTANT_TAG_SIZE_CLASS sizeof(svm_class_class)
-#define SVM_CONSTANT_TAG_SIZE_STRING sizeof(svm_class_string)
-#define SVM_CONSTANT_TAG_SIZE_FIELD_REF sizeof(svm_class_field_ref)
-#define SVM_CONSTANT_TAG_SIZE_METHOD_REF sizeof(svm_class_method_ref)
-#define SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF sizeof(svm_class_interface_method_ref)
-#define SVM_CONSTANT_TAG_SIZE_NAME_AND_TYPE sizeof(svm_class_name_and_type)
-#define SVM_CONSTANT_TAG_SIZE_METHOD_HANDLE sizeof(svm_class_method_handle)
-#define SVM_CONSTANT_TAG_SIZE_METHOD_TYPE sizeof(svm_class_method_type)
-#define SVM_CONSTANT_TAG_SIZE_INVOKE_DYNAMIC sizeof(svm_class_invoke_dynamic)
+#define SVM_CONSTANT_TAG_SIZE_UTF8 sizeof(uint8_t*)
+#define SVM_CONSTANT_TAG_SIZE_INTEGER 4
+#define SVM_CONSTANT_TAG_SIZE_FLOAT 4
+#define SVM_CONSTANT_TAG_SIZE_LONG 8
+#define SVM_CONSTANT_TAG_SIZE_DOUBLE 8
+#define SVM_CONSTANT_TAG_SIZE_CLASS 2
+#define SVM_CONSTANT_TAG_SIZE_STRING 2
+#define SVM_CONSTANT_TAG_SIZE_FIELD_REF 4
+#define SVM_CONSTANT_TAG_SIZE_METHOD_REF 4
+#define SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF 4
+#define SVM_CONSTANT_TAG_SIZE_NAME_AND_TYPE 4
+#define SVM_CONSTANT_TAG_SIZE_METHOD_HANDLE 3
+#define SVM_CONSTANT_TAG_SIZE_METHOD_TYPE 2
 
 /**
  * An entry into the constant pool. The contense of info
@@ -70,98 +69,36 @@ struct svm_class_cp_info {
     void* further;
 };
 
-/** Constant info entry describing a class. */
 typedef struct {
-    uint16_t name_index;
-} svm_class_class;
+    uint16_t a;
+} svm_class_constant_scheme_16;
 
-/** Constant info entry describing a field reference. */
 typedef struct {
-    uint16_t class_index;
-    uint16_t name_and_type_index;
-} svm_class_field_ref;
+    uint16_t a;
+    uint16_t b;
+} svm_class_constant_scheme_16_16;
 
-/** Constant info entry describing a method reference. */
 typedef struct {
-    uint16_t class_index;
-    uint16_t name_and_type_index;
-} svm_class_method_ref;
+    uint32_t a;
+} svm_class_constant_scheme_32;
 
-/** Constant info entry describing a interface method reference. */
 typedef struct {
-    uint16_t class_index;
-    uint16_t name_and_type_index;
-} svm_class_interface_method_ref;
+    uint32_t a;
+    uint32_t b;
+} svm_class_constant_scheme_32_32;
 
-/** Constant info entry describing a string. */
 typedef struct {
-    uint16_t string_index;
-} svm_class_string;
+    uint8_t a;
+} svm_class_constant_scheme_8;
 
-/** Constant info entry describing an integer. */
 typedef struct {
-    uint32_t bytes;
-} svm_class_int;
-/** Constant info entry describing a float. */
-typedef struct {
-    uint32_t bytes;
-} svm_class_float;
+    uint8_t a;
+    uint16_t b;
+} svm_class_constant_scheme_8_16;
 
-/** Constant info entry describing a long. */
 typedef struct {
-    uint32_t low;
-    uint32_t high;
-} svm_class_long;
-
-/** Constant info entry describing a double. */
-typedef struct {
-    uint32_t low;
-    uint32_t high;
-} svm_class_double;
-
-/** Constant info entry describing a name and type. */
-typedef struct {
-    uint16_t name_index;
-    uint16_t descriptor_index;
-} svm_class_name_and_type;
-
-/** Constant info entry describing a UTF8 string. */
-typedef struct {
-    uint8_t* bytes;
-} svm_class_utf8;
-
-/** Constant info entry describing a method handle. */
-typedef struct {
-    uint8_t reference_kind;
-    uint16_t reference_index;
-} svm_class_method_handle;
-
-/** Constant info entry describing a method type. */
-typedef struct {
-    uint16_t descriptor_index;
-} svm_class_method_type;
-
-/** Constant info entry describing a dynamic. */
-typedef struct {
-    uint16_t bootstrap_method_attr_index;
-    uint16_t name_and_type_index;
-} svm_class_dynamic;
-
-/** Constant info entry describing the invocation of a dynamic. */
-typedef struct {
-    uint16_t bootstrap_method_attr_index;
-    uint16_t name_and_type_index;
-} svm_class_invoke_dynamic;
-
-/** Constant info entry describing a class module. */
-typedef struct {
-    uint16_t name_index;
-} svm_class_class_module;
-
-/** Constant info entry describing a class package. */
-typedef struct {
-    uint16_t name_index;
-} svm_class_class_package;
+    uint8_t* a;
+} svm_class_constant_scheme_8ptr;
 
 /** Get the size that the "payload" (info member)
  * is, in bytes. This will return the max on types that

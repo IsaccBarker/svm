@@ -82,7 +82,7 @@ size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned 
     uint16_t length = (src[offset] << 8) + src[offset+1];
     size_t track_offset = length;
     uint8_t* str = malloc(length * sizeof(uint8_t) + 1);
-    svm_class_utf8* typed_info = malloc(SVM_CONSTANT_TAG_SIZE_UTF8);
+    svm_class_constant_scheme_8ptr* typed_info = malloc(SVM_CONSTANT_TAG_SIZE_UTF8);
 
     if (typed_info == NULL) {
         log_fatal("Failed to allocatae memory for UTF8 typed info (%d): %s",
@@ -101,7 +101,7 @@ size_t svm_class_get_next_constant_entry_utf8(svm_class_cp_info* info, unsigned 
 
     str[length] = '\0';
 
-    typed_info->bytes = str;
+    typed_info->a = str;
 
     info->further = typed_info;
     info->tag = SVM_CONSTANT_TAG_UTF8;
