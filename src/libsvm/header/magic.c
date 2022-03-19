@@ -1,4 +1,4 @@
-#include <svm_magic.h>
+#include <libsvm/header/magic.h>
 
 #include <stdlib.h>
 

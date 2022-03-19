@@ -3,7 +3,7 @@
 
 typedef struct svm_class_cp_info svm_class_cp_info;
 
-#include <svm_class.h>
+#include "../class.h"
 
 #include <stdint.h>
 #include <stdlib.h>

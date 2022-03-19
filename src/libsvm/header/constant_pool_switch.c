@@ -1,4 +1,4 @@
-#include <svm_constant_pool.h>
+#include <libsvm/header/constant_pool.h>
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -7,7 +7,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include <svm_log.h>
+#include <libsvm/log.h>
 
 size_t svm_class_constant_tag_constant_to_size(uint8_t tag) {
     switch (tag) {

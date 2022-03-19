@@ -1,6 +1,5 @@
-#include <svm_version.h>
-
-#include <svm_log.h>
+#include <libsvm/header/version.h>
+#include <libsvm/log.h>
 
 #include <stdint.h>
 #include <stdlib.h>
