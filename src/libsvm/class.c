@@ -4,6 +4,8 @@
 #include <libsvm/header/magic.h>
 #include <libsvm/header/version.h>
 #include <libsvm/header/constant_pool.h>
+#include <libsvm/header/access_flags.h>
+#include <libsvm/header/this_super.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +41,21 @@ svm_class* svm_parse_class(unsigned char* src, size_t length) {
     }
 
     read_head += svm_class_get_constant_pool(class, src, read_head);
+    read_head += svm_class_get_access_flags(class, src, read_head);
+    read_head += svm_class_get_this_super(class, src, read_head);
+    read_head += svm_class_get_interfaces_count(class, src, read_head);
+
+    tmp_allocation_size = class->interfaces_count * sizeof(uint16_t);
+    class->interfaces = malloc(tmp_allocation_size);
+
+    if (class->interfaces == NULL) {
+        log_fatal("Failed to allocate memory for interfaces (%d): %s", tmp_allocation_size, strerror(errno));
+
+        exit(EXIT_FAILURE);
+    }
+
+    read_head += svm_class_get_interfaces(class, src, read_head);
+    read_head += svm_class_get_fields_count(class, src, read_head);
 
     svm_verify_version_validity(class);
     svm_account_for_preview_features(class);
@@ -71,11 +88,11 @@ void svm_dump_class(svm_class* class) {
     log_debug("Meta: ");
     log_debug("\tPreview Features : %d", class->meta.feature_preview);
     log_debug("Magic : 0x%08X", class->magic);
-    log_debug("Major Version : %d (0x%04X)", class->major_version, class->major_version);
-    log_debug("Minor Version : %d (0x%04X)", class->minor_version, class->minor_version);
+    log_debug("Major Version : %d", class->major_version);
+    log_debug("Minor Version : %d", class->minor_version);
     log_debug("Human Version : %s", svm_get_human_java_version(class));
-    log_debug("Constant Pool Count : %d (0x%04X)", class->constant_pool_count);
-    log_trace("Constant Pool Entiries :");
+    log_debug("Constant Pool Count : %d", class->constant_pool_count);
+    log_trace("Constant Pool Entries :");
 
     for (int i = 0; i < class->constant_pool_count-1; i++) {
         uint8_t tag = class->constant_pool[i].tag;
@@ -83,5 +100,17 @@ void svm_dump_class(svm_class* class) {
         log_trace("%d. %s", i+1, svm_class_constant_tag_as_string(tag));
         svm_class_print_constant_entry(tag, class->constant_pool[i].further, class->constant_pool);
     }
+
+    log_debug("Access Flags : %04X", class->access_flags);
+    log_debug("This Class : %d", class->this_class);
+    log_debug("Super Class : %d", class->super_class);
+    log_debug("Interfaces Count: %d", class->interfaces_count);
+    log_trace("Interfaces (if any) :");
+
+    for (int i = 0; i < class->interfaces_count; i++) {
+        log_trace("%d. %d", i, class->interfaces[i]);
+    }
+
+    log_debug("Fields Count: %d", class->fields_count);
 }
 
