@@ -13,10 +13,10 @@ libsvm_sources = [
   '../shared/log.c',
 ]
 
+# TODO: Add more headers
 libsvm_export_headers = [
-  '../../include/svm_const.h',
-  '../../include/svm_class.h',
-  '../../include/svm_log.h',
+  '../../include/libsvm/class.h',
+  '../../include/libsvm/log.h',
 ]
 
 libsvm_args = [
