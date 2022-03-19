@@ -34,6 +34,11 @@
                 top: 50%;
                 transform: translate(-50%, 0); */
             } */
+
+            pre {
+                display: inline;
+            }
+
         </style>
 
         <link rel="stylesheet" href="/node_modules/siimple/dist/siimple.min.css">
@@ -46,10 +51,22 @@
             for some functionality. The goal is to eventually support Java SE 17. Steps have
             been taken so that SVM can run on any platform that supports the C standard library,
             and it's written with no external dependencies. It builds fast, and is easy
-            to integrate into your application, with almost everything documented.</p>
-            <p>This isn't a project to have a community (although I'm not against that), but rather to further my own knowledge. I would be honored if you use it, but nonetheless I feel you should know my motivations.</p>
-            <img src="https://media4.giphy.com/media/IgF1p8NSnFlO6SbAQh/giphy.gif?cid=ecf05e47elwtk1bt7fxw973pd9mp1m9m2shviwafdra7sc5o&amp;rid=giphy.gif&amp;ct=g">
-            <p>A project by <a href="https://github.com/IsaccBarker">Milo Banks</a>.</p>
+            to integrate into your application, with almost everything documented. Please
+            keep in mind that the reference binary is not compliant with the standard JVM
+            options/flags/arguments, so you can't use this as a replacement for OpenJDK or
+            whatnot.</p>
+            <p>SVM does not offer online documentation; instead, please build SVM with
+            documentation support. The documentation is generated with <a href="https://www.doxygen.nl/index.html">Doxygen</a>, so if
+            you wanted to you could just build it directly.</p>
+            <p>PRs are entirely welcome. While I don't anticipate this becoming anything
+            of large importance, I want to build something that is at least somewhat
+            usable, and that can be embedded inside an application. The lack of platform
+            dependencies makes it easy to compile this for a huge amount of systems.
+            About 2 different system calls are used (on Linux and MacOS), and that's just
+            for dynamic allocation. That's how portable SVM is.</p>
+            <p>Click the below image for a documentation video.</p>
+            <a href="/assets/intro.mp4"><img width="100%" src="/assets/term.svg"></a>
+            <p>A project by <a href="https://github.com/IsaccBarker">Milo Banks</a>. Trust me, I'm a <del>doctor</del> high school CS student.</p>
         </div>
     </body>
 </html>
