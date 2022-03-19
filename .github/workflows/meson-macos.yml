@@ -11,7 +11,7 @@
 # For more information on Codacy Analysis CLI in general, see
 # https://github.com/codacy/codacy-analysis-cli.
 
-name: Meson Build
+name: Meson Build (MacOS)
 
 on:
   push:
@@ -30,15 +30,14 @@ jobs:
     permissions:
       contents: read # for actions/checkout to fetch code
     name: Meson Build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout code
         uses: actions/checkout@v2
 
       - run: |
-          pip install meson ninja
+          pip3 install meson ninja
           meson setup builddir
-          export CC=gcc
           meson build -C builddir/ -v 
           ninja -C builddir 
