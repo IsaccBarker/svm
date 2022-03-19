@@ -38,6 +38,8 @@ struct svm_class {
     uint16_t interfaces_count;
     /// The interface pool.
     uint16_t* interfaces;
+    /// The number of fields.
+    uint16_t fields_count;
 };
 
 /** Parses a class file from it's source.

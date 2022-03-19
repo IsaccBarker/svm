@@ -30,8 +30,6 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
     size_t info_size = svm_class_constant_tag_constant_to_size(tag);
     size_t track_offset = 0;
 
-    printf("\t%s\n", svm_class_constant_tag_as_string(tag));
-
     track_offset += 1;
     offset += 1;
 
