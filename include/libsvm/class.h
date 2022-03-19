@@ -3,8 +3,8 @@
 
 typedef struct svm_class svm_class;
 
-#include <svm_class_meta.h>
-#include <svm_constant_pool.h>
+#include "class_meta.h"
+#include "header/constant_pool.h"
 
 #include <stdint.h>
 #include <stdlib.h>

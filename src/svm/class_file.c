@@ -3,7 +3,7 @@
 #include <errno.h>
 #include <string.h>
 
-#include <svm_log.h>
+#include <libsvm/log.h>
 
 FILE* get_file_handle(char* class_file) {
     FILE* f = fopen(class_file, "rb");

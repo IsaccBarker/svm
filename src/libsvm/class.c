@@ -1,9 +1,9 @@
-#include <svm_class.h>
-#include <svm_class_meta.h>
-#include <svm_log.h>
-#include <svm_magic.h>
-#include <svm_version.h>
-#include <svm_constant_pool.h>
+#include <libsvm/class.h>
+#include <libsvm/class_meta.h>
+#include <libsvm/log.h>
+#include <libsvm/header/magic.h>
+#include <libsvm/header/version.h>
+#include <libsvm/header/constant_pool.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +80,7 @@ void svm_dump_class(svm_class* class) {
     for (int i = 0; i < class->constant_pool_count-1; i++) {
         uint8_t tag = class->constant_pool[i].tag;
 
-        log_trace("%d. %s", i+1, svm_constant_tag_as_string(tag));
+        log_trace("%d. %s", i+1, svm_class_constant_tag_as_string(tag));
         svm_class_print_constant_entry(tag, class->constant_pool[i].further, class->constant_pool);
     }
 }

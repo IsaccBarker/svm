@@ -1,7 +1,7 @@
 #ifndef SVM_MAGIC_H
 #define SVM_MAGIC_H
 
-#include <svm_class.h>
+#include "../class.h"
 
 #include <stdlib.h>
 
