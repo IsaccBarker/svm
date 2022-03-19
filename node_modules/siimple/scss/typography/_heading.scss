@@ -1,0 +1,35 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://www.siimple.xyz
+//
+@import "../_variables.scss";
+
+//Heading variables
+$siimple-heading-margin-bottom: 0.5em;
+$siimple-heading-sizes: $siimple-default-headings;
+
+//Heading class
+.siimple-h {
+    @each $heading-number,$heading-variables in $siimple-heading-sizes {
+        //Add this heading size
+        &#{$heading-number} {
+            display: block;
+            font-size: map-get($heading-variables, "size");
+            //font-family: $siimple-default-text-font;
+            font-weight: 600;
+            line-height: map-get($heading-variables, "line-height");
+            color: $siimple-default-color;
+            padding: 0px;
+            //margin-bottom: map-get($heading_variables, "margin-bottom");
+            margin-bottom: $siimple-heading-margin-bottom;
+            //Not first child
+            &:not(:first-child) {
+                margin-top: map-get($heading-variables, "margin-top");
+            }
+        }
+    }
+}
+

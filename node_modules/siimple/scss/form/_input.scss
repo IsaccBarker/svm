@@ -1,0 +1,50 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://wwww.siimple.xyz
+//
+@import "../_variables.scss";
+@import "../_functions.scss";
+
+//Input variables
+$siimple-input-padding: 10px;
+
+//Input style
+.siimple-input {
+    display: inline-block;
+    height: 34px;
+    line-height: 34px;
+    //font-family: $siimple-default-text-font;
+    font-size: 14px;
+    font-weight: normal;
+    color: $siimple-default-color;
+    padding: {
+        left: $siimple-input-padding;
+        right: $siimple-input-padding;
+        top: 0px;
+        bottom: 0px;
+    }
+    border: 0px;
+    border-radius: $siimple-default-border-radius;
+    outline: 0px;
+    //background-color: siimple-default-color("light");
+    background-color: siimple-default-color("light", "light");
+    vertical-align: top;
+    box-sizing: border-box;
+    //Fluid input
+    &--fluid {
+        width: 100%;
+    }
+    //Light input
+    &--light {
+        background-color: $siimple-default-white;
+    }
+    //Dark input
+    &--dark {
+        background-color: siimple-default-color("dark");
+        color: $siimple-default-white;
+    }
+}
+

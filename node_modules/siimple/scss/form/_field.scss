@@ -1,0 +1,40 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://www.siimple.xyz
+//
+@import "../_variables.scss";
+@import "../_functions.scss";
+
+//The class siimple-form-field will be deprecated
+//Use siimple-field istead!
+.siimple-field, 
+.siimple-form-field {
+    display: block;
+    vertical-align: top;
+    margin-bottom: $siimple-default-margin-bottom;
+    margin-top: 0px;
+    //Field label
+    &-label {
+        display: block;
+        //width: 100%;
+        vertical-align: top;
+        font-weight: 600;
+        font-size: 15px;
+        color: $siimple-default-color;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    &-helper {
+        display: block;
+        vertical-align: top;
+        font-weight: normal;
+        font-size: 13px;
+        color: siimple-default-color("dark", "light");
+        margin-top: 5px;
+        margin-bottom: $siimple-default-margin-bottom;
+    }
+}
+

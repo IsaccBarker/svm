@@ -1,0 +1,76 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://www.siimple.xyz
+//
+@import "../_variables.scss";
+
+//Grid variables
+$siimple-grid-margin-left: auto;
+$siimple-grid-margin-right: auto;
+
+//Grid row variables
+$siimple-grid-row-margin: -12px;
+
+//Gird colum variables
+$siimple-grid-column-margin: 10px;
+$siimple-grid-column-padding: 12px;
+$siimple-grid-column-sizes: $siimple-default-grid; 
+
+//Grid class
+.siimple-grid {
+    display: block;
+    width: 100%;
+    margin-left: $siimple-grid-margin-left;
+    margin-right: $siimple-grid-margin-right;
+    //Grid row
+    &-row {
+        display: block;
+        //width: 100%;
+        margin-left: $siimple-grid-row-margin;
+        margin-right: $siimple-grid-row-margin;
+        &:after {
+            content: " ";
+            clear: both;
+            display: table;
+            line-height: 0;
+        }
+    }
+    //Grid column
+    &-col {
+        display: inline-block;
+        vertical-align: top;
+        float: left;
+        padding: $siimple-grid-column-padding;
+        //margin: {
+        //    left: $siimple-grid-column-margin;
+        //    right: $siimple-grid-column-margin;
+        //}
+    }
+    //Grid default column sizes
+    @each $grid-name, $grid-width in $siimple-grid-column-sizes {
+        &-col--#{$grid-name} {
+            //width: #{$grid-width};
+            width: calc(#{$grid-width} - 2 * #{$siimple-grid-column-padding});
+        }
+    }
+    //Grid columns for each breakpoint
+    @each $grid-breakpoint, $grid-screen in $siimple-default-breakpoint {
+        @media (max-width: $grid-screen) {
+            @each $grid-name, $grid-width in $siimple-grid-column-sizes {
+                &-col--#{$grid-breakpoint}-#{$grid-name},
+                &-col-#{$grid-breakpoint}--#{$grid-name} {
+                    //width: #{$grid-width};
+                    width: calc(#{$grid-width} - 2 * #{$siimple-grid-column-padding});
+                }
+            }
+            //Hide grid column
+            &-col--#{$grid-breakpoint}-hide {
+                display: none !important;
+            }
+        }
+    }
+}
+

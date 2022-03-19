@@ -15,28 +15,41 @@
                 font-family: 'Open Sans', sans-serif;
             }
 
-            .parent {
+            h1 {
+                font-size: 38px;
+            }
+
+            p {
+                color: black;
+                font-size: 18px;
+            }
+
+            /* .parent {
                 position: relative;
             }
 
             .child {
-                position: absolute;
+                /* position: absolute;
                 left: 50%;
                 top: 50%;
-                transform: translate(-50%, 0);
-            }
+                transform: translate(-50%, 0); */
+            } */
         </style>
+
+        <link rel="stylesheet" href="/node_modules/siimple/dist/siimple.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div class="parent">
-            <div class="child">
-                <h1><a href="https://github.com/IsaccBarker/svm">Simple (language) Virtual Machine</a></h1>
-                </br>
-                <h3>SVM aims to be a embeddable JVM. It doesn't do much, but you can integrate it for some functionality. The goal is to eventually support Java SE 17.</h3>
-                <h3>This isn't a project to have a community (although I'm not against that), but rather to further my own knowledge. I would be honored if you use it, but nonetheless I feel you should know my motivations.</h3>
-                </br>
-                <p>A project by <a href="https://github.com/IsaccBarker">Milo Banks</a>.</p>
-            </div>
+        <div class="siimple--text-center siimple-content siimple-content--extra-large">
+            <h1 style="padding-bottom: 1%"><a href="https://github.com/IsaccBarker/svm">Simple (language) Virtual Machine</a></h1>
+            <p>SVM aims to be a embeddable JVM. It doesn't do much, but you can integrate it
+            for some functionality. The goal is to eventually support Java SE 17. Steps have
+            been taken so that SVM can run on any platform that supports the C standard library,
+            and it's written with no external dependencies. It builds fast, and is easy
+            to integrate into your application, with almost everything documented.</p>
+            <p>This isn't a project to have a community (although I'm not against that), but rather to further my own knowledge. I would be honored if you use it, but nonetheless I feel you should know my motivations.</p>
+            <img src="https://media4.giphy.com/media/IgF1p8NSnFlO6SbAQh/giphy.gif?cid=ecf05e47elwtk1bt7fxw973pd9mp1m9m2shviwafdra7sc5o&amp;rid=giphy.gif&amp;ct=g">
+            <p>A project by <a href="https://github.com/IsaccBarker">Milo Banks</a>.</p>
         </div>
     </body>
 </html>

@@ -1,0 +1,118 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://www.siimple.xyz
+//
+@import "../_variables.scss";
+@import "../_functions.scss";
+@import "../_utils.scss";
+
+//Button variables
+//$siimple-btn-height: 34px;
+//$siimple-btn-small-height: 24px;
+//$siimple-btn-big-height: 48px;
+
+//Button class
+.siimple-btn {
+    display: inline-block;
+    //min-height: 24px;
+    //transition: opacity 0.3s;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    //font-family: $siimple-default-text-font;
+    font-size: $siimple-default-font-size;
+    //font-weight: bold;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: $siimple-default-border-radius;
+    //Disable default button element borders
+    //https://github.com/siimple/siimple/pull/17
+    border: 0px;
+    //Disable user selection
+    @include siimple-utils-select(none);
+    //Button hover style
+    &:hover {
+        text-decoration: none;
+        //opacity: 0.8;
+        background-color: siimple-default-color("light", "light");
+    }
+    //Button colors
+    @each $color in $siimple-default-colors {
+        &#{&}--#{$color} {
+            background-color: siimple-default-color($color, "base");
+            color: siimple-default-color($color, "over");
+            //Button hover
+            &:hover {
+                background-color: siimple-default-color($color, "dark");
+            }
+        }
+    }
+    //Legacy colors
+    //To be deprecated in future major release
+    @each $color in $siimple-legacy-colors {
+        &#{&}--#{$color} {
+            background-color: siimple-legacy-color($color, "base");
+            color: siimple-legacy-color($color, "over");
+        }
+    }
+    //Disabled button
+    &--disabled {
+        //background-color: $siimple-btn-disabled-background !important;
+        //color: rgba($siimple-btn-disabled-color, $siimple-btn-disabled-color-alpha) !important;
+        opacity: 0.6 !important;
+        cursor: not-allowed !important;
+    }
+    //Small button
+    &--small {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        font-size: 12px;
+        //min-height: 24px;
+        line-height: 16px;
+    }
+    //Big button
+    &--big {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 9px;
+        padding-bottom: 9px;
+        font-size: 20px;
+        //min-height: 48px;
+        line-height: 30px;
+    }
+    //Fluid button
+    &--fluid {
+        width: 100%;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        //width: calc(100% - #{$siimple-btn-padding-left} - #{$siimple-btn-padding-right});
+    }
+    //Rounded button
+    &--rounded {
+        border-radius: 50px !important;
+    }
+    //Group buttons
+    &-group {
+        display: inline-block;
+    }
+    &-group > &:not(:first-child) {
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        margin-left: -1px;
+    }
+    &-group > &:not(:last-child) {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        margin-right: -2px;
+    }
+}
+

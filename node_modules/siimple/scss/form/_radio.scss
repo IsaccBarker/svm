@@ -1,0 +1,80 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://www.siimple.xyz
+//
+@import "../_variables.scss";
+@import "../_functions.scss";
+
+//Radio variables
+$siimple-radio-width: 18px;
+$siimple-radio-height: 18px;
+$siimple-radio-margin: 8px;
+$siimple-radio-border: 3px;
+$siimple-radio-circle: 6px;
+
+//Radio class
+.siimple-radio {
+    display: inline-block;
+    width: $siimple-radio-width;
+    height: $siimple-radio-height;
+    position: relative;
+    vertical-align: top;
+    margin: $siimple-radio-margin;
+    cursor: pointer;
+    //Radio outer circle
+    & > label {
+        display: block;
+        width: calc(#{$siimple-radio-width} - 2 * #{$siimple-radio-border});
+        height: calc(#{$siimple-radio-height} - 2 * #{$siimple-radio-border});
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border-radius: 100px;
+        border-width: $siimple-radio-border;
+        border-style: solid;
+        border-color: siimple-default-color("light");
+        transition: border-color 0.3s ease;
+        cursor: pointer;
+    }
+    //Radio inner circle
+    & > label:after {
+        position: absolute;
+        display: block;
+        content: "";
+        width: $siimple-radio-circle;
+        height: $siimple-radio-circle;
+        background-color: transparent;
+        border-radius: 100px;
+        top: calc(50% - #{$siimple-radio-circle} / 2);
+        left: calc(50% - #{$siimple-radio-circle} / 2);
+        transition: all 0.3s ease;
+    }
+    &:hover > label:after {
+        background-color: siimple-default-color("light");
+    }
+    //Hide radio input
+    & input[type=radio] {
+        visibility: hidden;
+    }
+    //Checked -> change tick
+    & input[type=radio]:checked + label:after {
+        background-color: siimple-default-color("primary");
+    }
+    //Checked -> change background
+    & input[type=radio]:checked + label {
+        border-color: siimple-default-color("primary");
+    }
+    //Radio colors
+    @each $color in $siimple-default-form-colors {
+        &--#{$color} input[type=radio]:checked + label:after {
+            background-color: siimple-default-color($color);
+        }
+        &--#{$color} input[type=radio]:checked + label {
+            border-color: siimple-default-color($color);
+        }
+    }
+}
+

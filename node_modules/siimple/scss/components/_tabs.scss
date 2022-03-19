@@ -1,0 +1,61 @@
+//
+// Siimple - minimal css framework for flat and clean websites
+// Under the MIT LICENSE.
+// License:    https://github.com/siimple/siimple/blob/master/LICENSE.md
+// Repository: https://github.com/siimple
+// Website:    https://www.siimple.xyz
+//
+@import "../_variables.scss";
+@import "../_functions.scss";
+@import "../_utils.scss";
+
+//Tabs variables
+$siimple-tabs-height: 40px;
+
+//Tabs class
+.siimple-tabs {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: $siimple-tabs-height;
+    //line-height: $siimple-tabs-height;
+    //font-family: $siimple-default-text-font;
+    font-size: $siimple-default-text-size;
+    margin-bottom: $siimple-default-margin-bottom;
+    border-bottom: 2px solid siimple-default-color("light");
+    //Disable user selection
+    @include siimple-utils-select(none);
+    &-tab, 
+    &-item {
+        display: inline-block;
+        float: left;
+        height: calc(#{$siimple-tabs-height} - 2px);
+        line-height: $siimple-tabs-height;
+        font-weight: 600;
+        color: siimple-default-color("dark", "light");
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-bottom: -1px;
+        border: 2px solid transparent;
+        border-top-left-radius: $siimple-default-border-radius;
+        border-top-right-radius: $siimple-default-border-radius;
+        cursor: pointer;
+        transition: all 0.3s;
+        //Hover tab
+        &:hover {
+            border-top-color: siimple-default-color("light", "light");
+            border-left-color: siimple-default-color("light", "light");
+            border-right-color: siimple-default-color("light", "light");
+        }
+        //Selected tab
+        &--selected {
+            border-top-color: siimple-default-color("light") !important;
+            border-left-color: siimple-default-color("light") !important;
+            border-right-color: siimple-default-color("light") !important;
+            border-bottom-color: $siimple-default-white !important;
+            background-color: $siimple-default-white !important;
+            color: siimple-default-color("dark");
+        }
+    }
+}
+
