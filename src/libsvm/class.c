@@ -5,6 +5,7 @@
 #include <libsvm/header/version.h>
 #include <libsvm/header/constant_pool.h>
 #include <libsvm/header/access_flags.h>
+#include <libsvm/header/this_super.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +42,7 @@ svm_class* svm_parse_class(unsigned char* src, size_t length) {
 
     read_head += svm_class_get_constant_pool(class, src, read_head);
     read_head += svm_class_get_access_flags(class, src, read_head);
+    read_head += svm_class_get_this_super(class, src, read_head);
 
     svm_verify_version_validity(class);
     svm_account_for_preview_features(class);
@@ -87,5 +89,7 @@ void svm_dump_class(svm_class* class) {
     }
 
     log_debug("Access Flags : %04X", class->access_flags);
+    log_debug("This Class : %d", class->this_class);
+    log_debug("Super Class : %d", class->super_class);
 }
 
