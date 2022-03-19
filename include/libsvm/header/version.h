@@ -1,7 +1,7 @@
 #ifndef SVM_CLASS_VERSION_H
 #define SVM_CLASS_VERSION_H
 
-#include <svm_class.h>
+#include "../class.h"
 
 #include <stdint.h>
 #include <stdlib.h>

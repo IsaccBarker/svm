@@ -1,9 +1,15 @@
 libsvm_sources = [
   'class.c',
-  'magic.c',
-  'version.c',
-  'constant_pool.c',
-  'constant_pool_switch.c',
+  'header/constant_pool.c',
+  'header/constant_pool_switch.c',
+  'header/access_flags.c',
+  'header/attributes.c',
+  'header/fields.c',
+  'header/interface.c',
+  'header/magic.c',
+  'header/methods.c',
+  'header/this_super.c',
+  'header/version.c',
   '../shared/log.c',
 ]
 

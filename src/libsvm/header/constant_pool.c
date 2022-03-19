@@ -1,4 +1,4 @@
-#include <svm_constant_pool.h>
+#include <libsvm/header/constant_pool.h>
 
 #include <stdlib.h>
 #include <stdint.h>

@@ -4,9 +4,9 @@
 #include <string.h>
 #include <assert.h>
 
-#include <svm_class.h>
-#include <svm_const.h>
-#include <svm_log.h>
+#include <libsvm/class.h>
+#include <libsvm/const.h>
+#include <libsvm/log.h>
 
 #include "./include/class_file.h"
 
