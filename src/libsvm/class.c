@@ -6,6 +6,8 @@
 #include <libsvm/header/constant_pool.h>
 #include <libsvm/header/access_flags.h>
 #include <libsvm/header/this_super.h>
+#include <libsvm/header/interface.h>
+#include <libsvm/header/fields.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,8 +87,15 @@ void svm_display_class_hex(unsigned char* src, size_t length) {
 void svm_dump_class(svm_class* class) {
     assert(class != NULL);
 
+    // We use 72 here because this is the max
+    // possible number of characters that
+    // svm_class_get_access_flags_as_string
+    // will spit out, plus a null terminator.
+    char access_flags_str_buf[72];
+
     log_debug("Meta: ");
-    log_debug("\tPreview Features : %d", class->meta.feature_preview);
+    log_debug("\tPreview Features : %s",
+            class->meta.feature_preview == 1 ? "yes" : "no");
     log_debug("Magic : 0x%08X", class->magic);
     log_debug("Major Version : %d", class->major_version);
     log_debug("Minor Version : %d", class->minor_version);
@@ -101,7 +110,12 @@ void svm_dump_class(svm_class* class) {
         svm_class_print_constant_entry(tag, class->constant_pool[i].further, class->constant_pool);
     }
 
-    log_debug("Access Flags : %04X", class->access_flags);
+    // We don't put a space between %s and %04X because
+    // svm_class_get_access_flags_as_string leaves a space
+    // at the end for the sake of performance.
+    log_debug("Access Flags : %s(%04X)",
+            svm_class_get_access_flags_as_string(class->access_flags, access_flags_str_buf),
+            class->access_flags);
     log_debug("This Class : %d", class->this_class);
     log_debug("Super Class : %d", class->super_class);
     log_debug("Interfaces Count: %d", class->interfaces_count);
