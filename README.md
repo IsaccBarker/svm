@@ -44,5 +44,6 @@ SVM uses only C99 standard headers and platform independent code, so it should w
 * Linux (Arch Linux)
 * Mac OS (Catalina)
 
-
+## Credits
+1. rxi's [log.c](https://github.com/rxi/log.c)
 
