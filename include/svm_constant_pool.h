@@ -23,6 +23,8 @@ typedef struct svm_class_cp_info svm_class_cp_info;
 #define SVM_CONSTANT_TAG_METHOD_HANDLE 15
 #define SVM_CONSTANT_TAG_METHOD_TYPE 16
 #define SVM_CONSTANT_TAG_INVOKE_DYNAMIC 18
+#define SVM_CONSTANT_TAG_CLASS_MODULE 19
+#define SVM_CONSTANT_TAG_CLASS_PACKAGE 20
 
 #define SVM_METHOD_HANDLE_KIND_GET_FIELD 1
 #define SVM_METHOD_HANDLE_KIND_GET_STATIC 2
@@ -33,6 +35,21 @@ typedef struct svm_class_cp_info svm_class_cp_info;
 #define SVM_METHOD_HANDLE_KIND_INVOKE_SPECIAL 7
 #define SVM_METHOD_HANDLE_KIND_NEW_INVOKE_SPECIAL 8
 #define SVM_METHOD_HANDLE_KIND_INVOKE_INTERFACE 9
+
+#define SVM_CONSTANT_TAG_SIZE_UTF8 sizeof(svm_class_utf8)
+#define SVM_CONSTANT_TAG_SIZE_INTEGER sizeof(svm_class_int)
+#define SVM_CONSTANT_TAG_SIZE_FLOAT sizeof(svm_class_float)
+#define SVM_CONSTANT_TAG_SIZE_LONG sizeof(svm_class_long)
+#define SVM_CONSTANT_TAG_SIZE_DOUBLE sizeof(svm_class_double)
+#define SVM_CONSTANT_TAG_SIZE_CLASS sizeof(svm_class_class)
+#define SVM_CONSTANT_TAG_SIZE_STRING sizeof(svm_class_string)
+#define SVM_CONSTANT_TAG_SIZE_FIELD_REF sizeof(svm_class_field_ref)
+#define SVM_CONSTANT_TAG_SIZE_METHOD_REF sizeof(svm_class_method_ref)
+#define SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF sizeof(svm_class_interface_method_ref)
+#define SVM_CONSTANT_TAG_SIZE_NAME_AND_TYPE sizeof(svm_class_name_and_type)
+#define SVM_CONSTANT_TAG_SIZE_METHOD_HANDLE sizeof(svm_class_method_handle)
+#define SVM_CONSTANT_TAG_SIZE_METHOD_TYPE sizeof(svm_class_method_type)
+#define SVM_CONSTANT_TAG_SIZE_INVOKE_DYNAMIC sizeof(svm_class_invoke_dynamic)
 
 /**
  * An entry into the constant pool. The contense of info
@@ -52,97 +69,98 @@ struct svm_class_cp_info {
     void* further;
 };
 
+/** Constant info entry describing a class. */
 typedef struct {
     uint16_t name_index;
 } svm_class_class;
 
+/** Constant info entry describing a field reference. */
 typedef struct {
     uint16_t class_index;
     uint16_t name_and_type_index;
 } svm_class_field_ref;
 
+/** Constant info entry describing a method reference. */
 typedef struct {
     uint16_t class_index;
     uint16_t name_and_type_index;
 } svm_class_method_ref;
 
+/** Constant info entry describing a interface method reference. */
 typedef struct {
     uint16_t class_index;
     uint16_t name_and_type_index;
 } svm_class_interface_method_ref;
 
+/** Constant info entry describing a string. */
 typedef struct {
     uint16_t string_index;
 } svm_class_string;
 
+/** Constant info entry describing an integer. */
 typedef struct {
     uint32_t bytes;
 } svm_class_int;
-
+/** Constant info entry describing a float. */
 typedef struct {
     uint32_t bytes;
 } svm_class_float;
 
+/** Constant info entry describing a long. */
 typedef struct {
     uint32_t low;
     uint32_t high;
 } svm_class_long;
 
+/** Constant info entry describing a double. */
 typedef struct {
     uint32_t low;
     uint32_t high;
 } svm_class_double;
 
+/** Constant info entry describing a name and type. */
 typedef struct {
     uint16_t name_index;
     uint16_t descriptor_index;
 } svm_class_name_and_type;
 
+/** Constant info entry describing a UTF8 string. */
 typedef struct {
     uint8_t* bytes;
 } svm_class_utf8;
 
+/** Constant info entry describing a method handle. */
 typedef struct {
     uint8_t reference_kind;
     uint16_t reference_index;
 } svm_class_method_handle;
 
+/** Constant info entry describing a method type. */
 typedef struct {
     uint16_t descriptor_index;
 } svm_class_method_type;
 
+/** Constant info entry describing a dynamic. */
 typedef struct {
     uint16_t bootstrap_method_attr_index;
     uint16_t name_and_type_index;
 } svm_class_dynamic;
 
+/** Constant info entry describing the invocation of a dynamic. */
 typedef struct {
     uint16_t bootstrap_method_attr_index;
     uint16_t name_and_type_index;
 } svm_class_invoke_dynamic;
 
+/** Constant info entry describing a class module. */
 typedef struct {
     uint16_t name_index;
-} svm_class_module;
+} svm_class_class_module;
 
+/** Constant info entry describing a class package. */
 typedef struct {
     uint16_t name_index;
-} svm_class_package;
-
-#define SVM_CONSTANT_TAG_SIZE_UTF8 sizeof(svm_class_utf8)
-#define SVM_CONSTANT_TAG_SIZE_INTEGER sizeof(svm_class_int)
-#define SVM_CONSTANT_TAG_SIZE_FLOAT sizeof(svm_class_float)
-#define SVM_CONSTANT_TAG_SIZE_LONG sizeof(svm_class_long)
-#define SVM_CONSTANT_TAG_SIZE_DOUBLE sizeof(svm_class_double)
-#define SVM_CONSTANT_TAG_SIZE_CLASS sizeof(svm_class_class)
-#define SVM_CONSTANT_TAG_SIZE_STRING sizeof(svm_class_string)
-#define SVM_CONSTANT_TAG_SIZE_FIELD_REF sizeof(svm_class_field_ref)
-#define SVM_CONSTANT_TAG_SIZE_METHOD_REF sizeof(svm_class_method_ref)
-#define SVM_CONSTANT_TAG_SIZE_INTERFACE_METHOD_REF sizeof(svm_class_interface_method_ref)
-#define SVM_CONSTANT_TAG_SIZE_NAME_AND_TYPE sizeof(svm_class_name_and_type)
-#define SVM_CONSTANT_TAG_SIZE_METHOD_HANDLE sizeof(svm_class_method_handle)
-#define SVM_CONSTANT_TAG_SIZE_METHOD_TYPE sizeof(svm_class_method_type)
-#define SVM_CONSTANT_TAG_SIZE_INVOKE_DYNAMIC sizeof(svm_class_invoke_dynamic)
+} svm_class_class_package;
 
 /** Get the size that the "payload" (info member)
  * is, in bytes. This will return the max on types that
@@ -153,10 +171,25 @@ size_t svm_class_tag_constant_to_size(uint8_t tag);
 
 /** Gets a constant tag as a string. Useful for debugging,
  * but not much else.
- * \param The tag to get as a string.
+ * \param tag The tag to get as a string.
  * \returns The string that the tag is.
  */
 char* svm_constant_tag_as_string(uint8_t tag);
+
+/** Initialized \ref info with the correct values, reading
+ * from \ref src from offset \ref offset.
+ * \param info The struct to write the result to.
+ * \param src The source of the class binary.
+ * \param offset The offset in which to look from.
+ * \returns The number of bytes to jump forward by.
+ */
+uint16_t svm_class_create_fixed_constant_entry(void* further, uint8_t tag, unsigned char* src, size_t offset);
+
+/** Pretty prints the constant pool entry supplied.
+ * \param info The struct to read from.
+ * \param pool The entire constant pool.
+ */
+void svm_class_print_constant_entry(uint16_t tag, void* further, svm_class_cp_info* pool);
 
 /** Gets the number of constants in the constant pool.
  * \param class The class to put the result into.

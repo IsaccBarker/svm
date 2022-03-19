@@ -3,6 +3,7 @@ libsvm_sources = [
   'magic.c',
   'version.c',
   'constant_pool.c',
+  'constant_pool_switch.c',
   '../shared/log.c',
 ]
 
