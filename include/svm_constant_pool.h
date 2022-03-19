@@ -105,14 +105,14 @@ typedef struct {
  * do not have a fixed size, such as \ref svm_class_utf8.
  * \param tag The tag to get the corasponding info's size of.
  * \returns The size, in bytes. */
-size_t svm_class_tag_constant_to_size(uint8_t tag);
+size_t svm_class_constant_tag_constant_to_size(uint8_t tag);
 
 /** Gets a constant tag as a string. Useful for debugging,
  * but not much else.
  * \param tag The tag to get as a string.
  * \returns The string that the tag is.
  */
-char* svm_constant_tag_as_string(uint8_t tag);
+char* svm_class_constant_tag_as_string(uint8_t tag);
 
 /** Initialized \ref info with the correct values, reading
  * from \ref src from offset \ref offset.
@@ -121,7 +121,7 @@ char* svm_constant_tag_as_string(uint8_t tag);
  * \param offset The offset in which to look from.
  * \returns The number of bytes to jump forward by.
  */
-uint16_t svm_class_create_fixed_constant_entry(void* further, uint8_t tag, unsigned char* src, size_t offset);
+uint16_t svm_class_constant_create_fixed_constant_entry(void* further, uint8_t tag, unsigned char* src, size_t offset);
 
 /** Pretty prints the constant pool entry supplied.
  * \param info The struct to read from.

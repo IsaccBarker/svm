@@ -25,7 +25,7 @@ uint16_t svm_class_get_constant_pool(svm_class* class, unsigned char* src, size_
 
 size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char* src, size_t offset) {
     uint8_t tag = src[offset];
-    size_t info_size = svm_class_tag_constant_to_size(tag);
+    size_t info_size = svm_class_constant_tag_constant_to_size(tag);
     size_t track_offset = 0;
 
     track_offset += 1;
@@ -49,7 +49,7 @@ size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char*
         // scheme, we have to parse through the info provided.
         // And no, we cannot just cast from the source array
         // into the struct, I tried that :D
-        svm_class_create_fixed_constant_entry(further, tag, src, offset);
+        svm_class_constant_create_fixed_constant_entry(further, tag, src, offset);
 
         track_offset += info_size;
 

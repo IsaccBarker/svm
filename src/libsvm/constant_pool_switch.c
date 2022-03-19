@@ -9,7 +9,7 @@
 
 #include <svm_log.h>
 
-size_t svm_class_tag_constant_to_size(uint8_t tag) {
+size_t svm_class_constant_tag_constant_to_size(uint8_t tag) {
     switch (tag) {
         case SVM_CONSTANT_TAG_UTF8:
             // The UTF8 constant type does not have a
@@ -47,7 +47,7 @@ size_t svm_class_tag_constant_to_size(uint8_t tag) {
     }
 }
 
-char* svm_constant_tag_as_string(uint8_t tag) {
+char* svm_class_constant_tag_as_string(uint8_t tag) {
     switch (tag) {
         case SVM_CONSTANT_TAG_CLASS:
             return "Class";
@@ -89,7 +89,7 @@ char* svm_constant_tag_as_string(uint8_t tag) {
 }
 
 // TODO: Optimize for DRY.
-uint16_t svm_class_create_fixed_constant_entry(void* further, uint8_t tag, unsigned char* src, size_t offset) {
+uint16_t svm_class_constant_create_fixed_constant_entry(void* further, uint8_t tag, unsigned char* src, size_t offset) {
     switch (tag) {
         case SVM_CONSTANT_TAG_CLASS:
             ((svm_class_constant_scheme_16*)further)->a =
