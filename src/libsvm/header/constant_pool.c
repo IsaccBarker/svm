@@ -7,7 +7,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include <svm_log.h>
+#include <libsvm/log.h>
 
 uint16_t svm_class_get_constant_pool_count(svm_class* class, unsigned char* src, size_t offset) {
     class->constant_pool_count = (src[offset] << 8) + src[offset+1];

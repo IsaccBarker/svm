@@ -7,7 +7,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include <svm_log.h>
+#include <libsvm/log.h>
 
 size_t svm_class_constant_tag_constant_to_size(uint8_t tag) {
     switch (tag) {
