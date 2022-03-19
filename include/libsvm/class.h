@@ -28,6 +28,16 @@ struct svm_class {
     uint16_t constant_pool_count;
     /// The constant pool.
     svm_class_cp_info* constant_pool;
+    /// The flags that depict the access rules for this class.
+    uint16_t access_flags;
+    /// An index into the constant table refering to this class.
+    uint16_t this_class;
+    /// An index into the constant table refering to the super class.
+    uint16_t super_class;
+    /// The number of interfaces in the interface pool.
+    uint16_t interfaces_count;
+    /// The interface pool.
+    uint16_t* interfaces;
 };
 
 /** Parses a class file from it's source.

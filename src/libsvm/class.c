@@ -4,6 +4,7 @@
 #include <libsvm/header/magic.h>
 #include <libsvm/header/version.h>
 #include <libsvm/header/constant_pool.h>
+#include <libsvm/header/access_flags.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +40,7 @@ svm_class* svm_parse_class(unsigned char* src, size_t length) {
     }
 
     read_head += svm_class_get_constant_pool(class, src, read_head);
+    read_head += svm_class_get_access_flags(class, src, read_head);
 
     svm_verify_version_validity(class);
     svm_account_for_preview_features(class);
@@ -83,5 +85,7 @@ void svm_dump_class(svm_class* class) {
         log_trace("%d. %s", i+1, svm_class_constant_tag_as_string(tag));
         svm_class_print_constant_entry(tag, class->constant_pool[i].further, class->constant_pool);
     }
+
+    log_debug("Access Flags : %04X", class->access_flags);
 }
 

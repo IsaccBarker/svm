@@ -16,17 +16,21 @@ uint16_t svm_class_get_constant_pool_count(svm_class* class, unsigned char* src,
 }
 
 uint16_t svm_class_get_constant_pool(svm_class* class, unsigned char* src, size_t offset) {
+    size_t tracked_offset = 0;
+
     for (size_t constant_index = 0; constant_index < class->constant_pool_count-1; constant_index++) {
-        offset += svm_class_get_next_constant_entry(&class->constant_pool[constant_index], src, offset);
+        tracked_offset += svm_class_get_next_constant_entry(&class->constant_pool[constant_index], src, tracked_offset+offset);
     }
 
-    return 0;
+    return tracked_offset;
 }
 
 size_t svm_class_get_next_constant_entry(svm_class_cp_info* info, unsigned char* src, size_t offset) {
     uint8_t tag = src[offset];
     size_t info_size = svm_class_constant_tag_constant_to_size(tag);
     size_t track_offset = 0;
+
+    printf("\t%s\n", svm_class_constant_tag_as_string(tag));
 
     track_offset += 1;
     offset += 1;
