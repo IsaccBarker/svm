@@ -113,7 +113,9 @@ void svm_dump_class(svm_class* class) {
     // We don't put a space between %s and %04X because
     // svm_class_get_access_flags_as_string leaves a space
     // at the end for the sake of performance.
-    log_debug("Access Flags : %s(%04X)",
+    //
+    // Not that it makes much difference.
+    log_debug("Access Flags : %s(0x%04X)",
             svm_class_get_access_flags_as_string(class->access_flags, access_flags_str_buf),
             class->access_flags);
     log_debug("This Class : %d", class->this_class);
